@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Backend repository for iHelp",
   "main": "server.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:init": "psql -U postgres -f db/schema.sql",
