@@ -1,25 +1,25 @@
-// DEPENDENCIES
+// Dependencies
 const cors = require("cors");
 const express = require("express");
 
-// ROUTE IMPORTS
-const requestersRoutes = require("./routes/requestersRoutes");
+// Route Imports
+const requestersController = require("./controllers/requestersController");
 
-// CONFIGURATION
+// Configuration
 const app = express();
 
-// MIDDLEWARE
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// ROOT ROUTE
+// Root Route
 app.get("/", (req, res) => res.send("Welcome to iHelp"));
 
-// ROUTES
-app.use("/requesters", requestersRoutes);
+// Routes
+app.use("/requesters", requestersController);
 
-// 404 PAGE
+// 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));
 
-// EXPORT
+// Export
 module.exports = app;
