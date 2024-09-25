@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:init": "psql -U postgres -f db/schema.sql",
-    "db:seed": "psql -U postgres -f db/seed.sql"
+    "start": "psql -U postgres -f db/schema.sql && psql -U postgres -f db/seed.sql" 
   },
   "author": "",
   "license": "ISC",
