@@ -3,6 +3,7 @@
 iHelp is a backend application designed to connect volunteers with organizations in need of assistance. The system allows organizations to post requests for help, volunteers to offer their services, and provides a reward system for participants.
 
 ## Table of Contents
+
 - [Features](#features)
 - [Technologies](#technologies)
 - [Setup](#setup)
@@ -13,7 +14,7 @@ iHelp is a backend application designed to connect volunteers with organizations
 - [Contributing](#contributing)
 - [License](#license)
 
-### [iHelp db-diagram](https://dbdiagram.io/d/iHelp-66f49db63430cb846ca4076d)
+### [iHelp Database Diagram](https://dbdiagram.io/d/iHelp-66f49db63430cb846ca4076d)
 
 <hr />
 
@@ -59,12 +60,14 @@ ihelp-backend/
 ```
 
 ## Features
+
 - Manage requesters and volunteers
 - Organizations can post requests for assistance
 - Reward system for volunteers
 - Track game progress and badges earned by volunteers
 
 ## Technologies
+
 - Node.js
 - Express.js
 - PostgreSQL
@@ -75,17 +78,21 @@ ihelp-backend/
 ## Setup
 
 ### Prerequisites
+
 - Node.js (version >= 14)
 - PostgreSQL (version >= 12)
 
 ### Installation
+
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/ihelp-backend.git
    cd ihelp-backend
    ```
 
 2. Install the dependencies:
+
    ```bash
    npm install
    ```
@@ -102,6 +109,7 @@ ihelp-backend/
 ## Usage
 
 1. Start the server:
+
    ```bash
    npm start
    ```
@@ -111,6 +119,7 @@ ihelp-backend/
 ## API Endpoints
 
 ### Requesters
+
 - `GET /requesters` - Retrieve all requesters
 - `POST /requesters` - Create a new requester
 - `GET /requesters/:id` - Retrieve a requester by ID
@@ -118,6 +127,7 @@ ihelp-backend/
 - `DELETE /requesters/:id` - Delete a requester by ID
 
 ### Volunteers
+
 - `GET /volunteers` - Retrieve all volunteers
 - `POST /volunteers` - Create a new volunteer
 - `GET /volunteers/:id` - Retrieve a volunteer by ID
@@ -125,6 +135,7 @@ ihelp-backend/
 - `DELETE /volunteers/:id` - Delete a volunteer by ID
 
 ### Requests
+
 - `GET /requests` - Retrieve all requests
 - `POST /requests` - Create a new request
 - `GET /requests/:id` - Retrieve a request by ID
@@ -132,6 +143,7 @@ ihelp-backend/
 - `DELETE /requests/:id` - Delete a request by ID
 
 ### Organizations
+
 - `GET /organizations` - Retrieve all organizations
 - `POST /organizations` - Create a new organization
 - `GET /organizations/:id` - Retrieve an organization by ID
@@ -139,6 +151,7 @@ ihelp-backend/
 - `DELETE /organizations/:id` - Delete an organization by ID
 
 ### Rewards
+
 - `GET /rewards` - Retrieve all rewards
 - `POST /rewards` - Create a new reward
 - `GET /rewards/:id` - Retrieve a reward by ID
@@ -146,17 +159,23 @@ ihelp-backend/
 - `DELETE /rewards/:id` - Delete a reward by ID
 
 ### Badges and Game Progress
+
 - Endpoints to manage badges and game progress can be added similarly.
 
 ## Database Schema
-Refer to `db/schema.sql` for the database schema, which includes tables for `requesters`, `volunteers`, `requests`, `organizations`, `rewards`, `game_progress`, `badges`, and `volunteer_badges`.
+
+Refer to [this Database Diagram](https://dbdiagram.io/d/iHelp-66f49db63430cb846ca4076d) for the database schema, which includes tables for `requesters`, `volunteers`, `requests`, `organizations`, `rewards`, `game_progress`, `badges`, and `volunteer_badges`.
 
 ## Seeding the Database
+
 To seed the database with initial data, run the following command:
+
 ```bash
 npm start
 ```
+
 This command will execute the SQL files to create the schema and populate it with sample data.
 
 ## Contributing
+
 Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
