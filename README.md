@@ -12,7 +12,6 @@ iHelp is a backend application designed to connect volunteers with organizations
 - [Database Schema](#database-schema)
 - [Seeding the Database](#seeding-the-database)
 - [Contributing](#contributing)
-- [License](#license)
 
 ### [iHelp Database Diagram](https://dbdiagram.io/d/iHelp-66f49db63430cb846ca4076d)
 
