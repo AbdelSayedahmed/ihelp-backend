@@ -1,4 +1,4 @@
-# iHelp-backend
+# iHelp Backend
 
 iHelp is a backend application designed to connect volunteers with organizations in need of assistance. The system allows organizations to post requests for help, volunteers to offer their services, and provides a reward system for participants.
 
