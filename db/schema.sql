@@ -15,7 +15,6 @@ CREATE TABLE addresses (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE organizations (
     id SERIAL PRIMARY KEY,
     address_id INT REFERENCES addresses (id),
@@ -26,7 +25,6 @@ CREATE TABLE organizations (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE requesters (
     id SERIAL PRIMARY KEY,
     org_id INT REFERENCES organizations (id),
@@ -36,7 +34,6 @@ CREATE TABLE requesters (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
-
 
 CREATE TABLE volunteers (
     id SERIAL PRIMARY KEY,
@@ -50,7 +47,6 @@ CREATE TABLE volunteers (
     is_active BOOLEAN DEFAULT TRUE
 );
 
-
 CREATE TABLE requests (
     id SERIAL PRIMARY KEY,
     org_id INT REFERENCES organizations (id),
@@ -62,6 +58,12 @@ CREATE TABLE requests (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE request_status (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE request_task (
     id SERIAL PRIMARY KEY,
@@ -74,7 +76,6 @@ CREATE TABLE request_task (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE rewards (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -85,7 +86,6 @@ CREATE TABLE rewards (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE rewards_earned (
     id SERIAL PRIMARY KEY,
     reward_id INT REFERENCES rewards (id),
@@ -93,7 +93,6 @@ CREATE TABLE rewards_earned (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 CREATE TABLE badges (
     id SERIAL PRIMARY KEY,
@@ -105,7 +104,6 @@ CREATE TABLE badges (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE badges_earned (
     id SERIAL PRIMARY KEY,
     volunteer_id INT REFERENCES volunteers (id),
@@ -114,14 +112,12 @@ CREATE TABLE badges_earned (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE task_progress (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 CREATE TABLE assigned_tasks (
     id SERIAL PRIMARY KEY,
