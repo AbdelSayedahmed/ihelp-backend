@@ -37,6 +37,7 @@ CREATE TABLE requesters (
 
 CREATE TABLE volunteers (
     id SERIAL PRIMARY KEY,
+    uid VARCHAR(255) UNIQUE NOT NULL,
     organization_id INT REFERENCES organizations (id),
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
