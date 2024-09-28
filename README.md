@@ -23,38 +23,42 @@ iHelp is a backend application designed to connect volunteers with organizations
 ihelp-backend/
 │
 ├── controllers/
-│   ├── requestersController.js
-│   ├── volunteersController.js
-│   ├── requestsController.js
-│   ├── organizationsController.js
-│   ├── rewardsController.js
-│   ├── gameProgressController.js
 │   ├── badgesController.js
-│   └── volunteerBadgesController.js
+│   ├── organizationsController.js
+│   ├── requestersController.js
+│   ├── requestsController.js
+│   ├── rewardsController.js
+│   ├── tasksController.js
+│   └── volunteerController.js
 │
 ├── db/
 │   ├── db-config
 │   ├── schema.sql
 │   └── seed.sql
 │
+├── middleware/
+│   ├── authMiddleware.js
+│
 ├── node_modules/
 │   └── ...
 │
 ├── queries/
-│   ├── requestersQueries.js
-│   ├── volunteersQueries.js
-│   ├── requestsQueries.js
-│   ├── organizationsQueries.js
-│   ├── rewardsQueries.js
-│   ├── gameProgressQueries.js
 │   ├── badgesQueries.js
-│   └── volunteerBadgesQueries.js
+│   ├── organizationsQueries.js
+│   ├── requestersQueries.js
+│   ├── requestsQueries.js
+│   ├── rewardsQueries.js
+│   ├── tasksQueries.js
+│   └── volunteerQueries.js
 │
 ├── .env
 ├── .gitignore
 ├── app.js
+├── firebase-admin.js
+├── firebase-credentials.json
 ├── package-lock.json
 ├── package.json
+├── README.md
 └── server.js
 ```
 
