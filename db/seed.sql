@@ -1,90 +1,45 @@
 \c ihelp_db;
 
 INSERT INTO
-    organizations (name, phone, address, description, email)
+    addresses (street, city, state, zip_code, country)
 VALUES
     (
-        'Helping Hands',
+        '123 Main St',
+        'Springfield',
+        'IL',
+        '62701',
+        'USA'
+    ),
+    ('456 Oak St', 'Metropolis', 'NY', '10001', 'USA');
+
+INSERT INTO
+    organizations (address_id, phone, name, description)
+VALUES
+    (
+        1,
         '555-1234',
-        '123 Charity St, Kindville',
-        'A non-profit organization focused on helping the needy.',
-        'contact@helpinghands.org'
+        'Helping Hands',
+        'Non-profit organization focused on community support.'
     ),
     (
-        'Volunteer Squad',
+        2,
         '555-5678',
-        '456 Care Ave, Compassion City',
-        'A group that connects volunteers with causes in need.',
-        'info@volunteersquad.org'
+        'Care Network',
+        'A group helping the elderly and disabled.'
     );
 
--- Seeding the 'requesters' table
 INSERT INTO
-    requesters (name, email, phone, organization, address)
+    requesters (org_id, name, phone)
 VALUES
-    (
-        'John Doe',
-        'john.doe@email.com',
-        '555-1010',
-        'Helping Hands',
-        '123 Charity St, Kindville'
-    ),
-    (
-        'Jane Smith',
-        'jane.smith@email.com',
-        '555-2020',
-        'Volunteer Squad',
-        '456 Care Ave, Compassion City'
-    );
+    (1, 'John Doe', '555-9876'),
+    (2, 'Jane Smith', '555-4321');
 
--- Seeding the 'volunteers' table
 INSERT INTO
-    volunteers (name, email, age, organization, points)
+    volunteers (organization_id, name, email, age, points_earned)
 VALUES
-    (
-        'Alice Johnson',
-        'alice.johnson@email.com',
-        25,
-        'Helping Hands',
-        100
-    ),
-    (
-        'Bob Roberts',
-        'bob.roberts@email.com',
-        30,
-        'Volunteer Squad',
-        200
-    );
+    (1, 'Alice Johnson', 'alice@example.com', 28, 50),
+    (2, 'Bob Williams', 'bob@example.com', 32, 100);
 
--- Seeding the 'requests' table
-INSERT INTO
-    requests (
-        organization,
-        volunteer_id,
-        requester_id,
-        status,
-        description,
-        due_date
-    )
-VALUES
-    (
-        'Helping Hands',
-        1,
-        1,
-        'pending',
-        'Assist with organizing donations',
-        '2024-12-01 10:00:00'
-    ),
-    (
-        'Volunteer Squad',
-        2,
-        2,
-        'completed',
-        'Help set up community event',
-        '2024-09-30 12:00:00'
-    );
-
--- Seeding the 'rewards' table
 INSERT INTO
     rewards (
         name,
@@ -93,53 +48,82 @@ INSERT INTO
         points_required
     )
 VALUES
-    (
-        'Free Coffee',
-        'Redeem for a free coffee at local café.',
-        1,
-        50
-    ),
-    (
-        'T-shirt',
-        'Get a branded T-shirt for your efforts.',
-        2,
-        150
-    );
+    ('Gift Card', 'A $25 gift card', 1, 100),
+    ('T-Shirt', 'A branded T-shirt', 2, 50);
 
--- Seeding the 'volunteer_rewards' table
 INSERT INTO
-    volunteer_rewards (reward_id, volunteer_id)
+    rewards_earned (reward_id, volunteer_id)
 VALUES
-    (1, 1),
-    (2, 2);
+    (1, 2),
+    (2, 1);
 
--- Seeding the 'game_progress' table
 INSERT INTO
-    game_progress (volunteer_id, current_level)
-VALUES
-    (1, 5),
-    (2, 7);
-
--- Seeding the 'badges' table
-INSERT INTO
-    badges (name, description, icon_url, required_tasks)
+    badges (name, description, img_url, requirement)
 VALUES
     (
         'Helping Hero',
         'Awarded for completing 10 tasks.',
-        'hero_icon.png',
-        '10 tasks'
+        'https://example.com/hero.png',
+        'Complete 10 tasks'
     ),
     (
-        'Event Master',
-        'Awarded for organizing 5 events.',
-        'event_master_icon.png',
-        '5 events'
+        'Community Star',
+        'Awarded for helping 5 different requesters.',
+        'https://example.com/star.png',
+        'Help 5 requesters'
     );
 
--- Seeding the 'volunteer_badges' table
 INSERT INTO
-    volunteer_badges (volunteer_id, badge_id)
+    badges_earned (volunteer_id, badge_id)
 VALUES
     (1, 1),
     (2, 2);
+
+INSERT INTO
+    task_progress (name)
+VALUES
+    ('Not Started'),
+    ('In Progress'),
+    ('Completed');
+
+INSERT INTO
+    requests (
+        org_id,
+        volunteer_id,
+        requester_id,
+        status_id,
+        description
+    )
+VALUES
+    (
+        1,
+        1,
+        1,
+        1,
+        'Assist with grocery shopping for the elderly.'
+    ),
+    (
+        2,
+        2,
+        2,
+        2,
+        'Help with lawn mowing and yard work.'
+    );
+
+INSERT INTO
+    request_task (
+        requester_id,
+        organization_id,
+        request_id,
+        point_earnings,
+        due_date
+    )
+VALUES
+    (1, 1, 1, 10, '2024-10-10'),
+    (2, 2, 2, 15, '2024-11-15');
+
+INSERT INTO
+    assigned_tasks (request_task_id, volunteer_id, task_progress_id)
+VALUES
+    (1, 1, 3),
+    (2, 2, 2);
