@@ -1,3 +1,4 @@
+\c ihelp_db;
 
 INSERT INTO addresses (street, city, state, zip_code, country) VALUES 
 ('123 Elm St', 'Los Angeles', 'CA', '90001', 'USA'),
