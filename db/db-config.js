@@ -26,4 +26,5 @@ db.connect()
     cn.done();
   })
   .catch((error) => console.log("database connection error", error));
+  
 module.exports = db;
