@@ -36,10 +36,10 @@ INSERT INTO requests (org_id, volunteer_id, requester_id, status_id, description
 (5, 5, 5, 2, 'Deliver meals to elderly neighbors');
 
 INSERT INTO request_status (name) VALUES 
-('Pending'), 
-('In Progress'), 
-('Completed'), 
-('Cancelled');
+('OPEN'), 
+('ASSIGNED'), 
+('COMPLETE'), 
+('COMPLETE');
 
 INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, due_date) VALUES
 (1, 1, 1, 50, '2024-09-30'),
