@@ -21,12 +21,12 @@ INSERT INTO requesters (org_id, name, phone) VALUES
 (4, 'Alice Davis', '555-0004'),
 (5, 'Charlie Brown', '555-0005');
 
-INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned) VALUES
-('OA0fvVp0l8XCwplmtKhjJ6ym7D22', 1, 'Kurt Julien', 'kjulien@pursuit.org', 25, 100),
-('2W4gow7VyWO8PXB4o5vAjKP38JB3', 2, 'Marcus Browne', 'mbrowne@pursuit.org', 30, 150),
-('wk2skOz9KUOXEqi6HJQDRhq5HN62', 3, 'Shanel Elms', 'selms@pursuit.org', 22, 120),
-('bWDLGo3svlbYEDGc2qfXzWnwBdK2', 4, 'Antonio Martinez', 'amartinez@pursuit.org', 28, 90),
-('Yhb4UQWh6VSAf0jYBGVjWv0cEYD3', 5, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 20, 351);
+INSERT INTO volunteers (organization_id, name, email, age, points_earned) VALUES
+(1, 'Kurt Julien', 'kjulien@pursuit.org', 25, 100),
+(2, 'Marcus Browne', 'mbrowne@pursuit.org', 30, 150),
+(3, 'Shanel Elms', 'selms@pursuit.org', 22, 120),
+(4, 'Antonio Martinez', 'amartinez@pursuit.org', 28, 90),
+(5, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 20, 351);
 
 INSERT INTO requests (org_id, volunteer_id, requester_id, status_id, description) VALUES
 (1, 1, 1, 1, 'Help with grocery shopping'),
