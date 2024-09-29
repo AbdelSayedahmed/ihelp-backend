@@ -53,7 +53,7 @@ CREATE TABLE requests (
     org_id INT REFERENCES organizations (id),
     volunteer_id INT REFERENCES volunteers (id),
     requester_id INT REFERENCES requesters (id),
-    status_id INT NOT NULL,
+    status_id REFERENCES request_status (id),
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
