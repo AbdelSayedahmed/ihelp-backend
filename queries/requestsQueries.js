@@ -1,6 +1,7 @@
 const db = require("../db/db-config.js");
 
 const { getVolunteerById } = require("../queries/volunteersQueries.js");
+const {getRequesterById } = require("../queries/requestersQueries.js");
 
 const getAllRequests = async () => {
     try {
@@ -17,46 +18,57 @@ const getRequestById = async (id) => {
         const request = await db.one("SELECT * FROM requests WHERE id=$1", id);
         const volunteer = await getVolunteerById(request.volunteer_id);
         console.log(volunteer);
+        const requester = await getRequesterById(request.requester_id);
 
-        const results = { id: request.id, description: request.description, created_at: request.created_at, updated_at: request.updated_at, volunteer: {id: volunteer.id, name: volunteer.name, email: volunteer.email, age: volunteer.age, points_earned: volunteer.points_earned}}
+        const results = { id: request.id, description: request.description, created_at: request.created_at, updated_at: request.updated_at, volunteer: {id: volunteer.id, name: volunteer.name, email: volunteer.email, age: volunteer.age, points_earned: volunteer.points_earned}, requester: {id: requester.id, name: requester.name, phone: requester.phone}}
         return results;
     } catch (error) {
         throw error;
     }
 }
 
-// const createRequest = async (request) => {
-//     const {
-//         id,
-//         description,
-//         created_at,
-//         updated_at,
-//         volunteer: { id, name, email, age, points_earned },
-//         requester: { id, name, phone },
-//         status: { id, name },
-//         tasks: [
-//             {
-//                 id,
-//                 description,
-//                 due_date,
-//                 point_earnings,
-//                 assigned_volunteers: [{
-//                     volunteer_id, name, status, reassigned_at
-//                 }]
-//             }
-//         ]
-//     } = request;
-//     try {
-//         const newRequest = await db.one("INSERT INTO requests (id, description, created_at, updated_at, volunteer, requester, status, tasks) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [id, description, created_at, updated_at, volunteer, requester, status, tasks]);
-//         return newRequest;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+const createRequest = async (request) => {
+    const { requester_id, volunteer_id, org_id, status_id, description } = request;
+
+    try {
+        const newRequest = await db.one(
+            "INSERT INTO requests (org_id, requester_id, volunteer_id, description, status_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
+            [requester_id, volunteer_id, org_id, status_id, description]
+        );
+        return newRequest;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const updateRequest = async (id, request) => {
+    const { requester_id, volunteer_id, org_id, status_id, description } = request;
+
+    try {
+        const updatedRequest = await db.one("UPDATE requests SET requester_id=$1, volunteer_id=$2, org_id=$4, status_id=$5, description=$6 WHERE id=$7 RETURNING *"
+            [requester_id, volunteer_id, org_id, status_id, description, id]
+        );
+        return updatedRequest;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const deleteRequest = async (id) => {
+    try {
+        const deletedRequest = await db.one(
+            "DELETE FROM requests WHERE id=$1 RETURNING *", id
+        );
+        return deletedRequest;
+    } catch (error) {
+        throw error;
+    }
+};
+
 module.exports = {
     getAllRequests,
     getRequestById,
-    // createRequest,
-    // updateRequest,
-    // deleteRequest
+    createRequest,
+    updateRequest,
+    deleteRequest
 };

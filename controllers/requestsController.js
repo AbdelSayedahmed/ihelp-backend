@@ -40,4 +40,32 @@ requests.post("/", async (req, res) => {
     }
 });
 
+requests.put("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedRequest = await updateRequest(id, req.body);
+        if (updatedRequest) {
+            res.status(200).json(updatedRequest);
+        } else {
+            res.status(404).json({ error: "Request not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+requests.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedRequest = await deleteRequest(id);
+        if (deletedRequest) {
+            res.status(200).json(deletedRequest);
+        } else {
+            res.status(404).json({ error: "Request not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 module.exports = requests;
