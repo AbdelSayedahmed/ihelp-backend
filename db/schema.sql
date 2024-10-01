@@ -49,17 +49,10 @@ CREATE TABLE volunteers (
 
 CREATE TABLE requests (
     id SERIAL PRIMARY KEY,
-<<<<<<< HEAD
     org_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
-    status_id INT NOT NULL,
-=======
-    org_id INT REFERENCES organizations (id),
-    volunteer_id INT REFERENCES volunteers (id),
-    requester_id INT REFERENCES requesters (id),
     status_id REFERENCES request_status (id),
->>>>>>> main
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
