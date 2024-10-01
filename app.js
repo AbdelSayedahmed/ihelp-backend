@@ -6,6 +6,7 @@ const express = require("express");
 const requestersController = require("./controllers/requestersController");
 // const volunteersController = require("./controllers/volunteersController");
 const organizationsController = require("./controllers/organizationsController");
+const requestsController = require("./controllers/requestsController");
 
 // Configuration
 const app = express();
@@ -21,6 +22,7 @@ app.get("/", (req, res) => res.send("Welcome to iHelp"));
 app.use("/requesters", requestersController);
 // app.use("/volunteers", volunteersController);
 app.use("/organizations", organizationsController);
+app.use("/requests", requestsController);
 
 // 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));

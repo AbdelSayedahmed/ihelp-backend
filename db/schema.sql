@@ -49,9 +49,9 @@ CREATE TABLE volunteers (
 
 CREATE TABLE requests (
     id SERIAL PRIMARY KEY,
-    org_id INT REFERENCES organizations (id),
-    volunteer_id INT REFERENCES volunteers (id),
-    requester_id INT REFERENCES requesters (id),
+    org_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
+    requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
     status_id REFERENCES request_status (id),
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -67,9 +67,9 @@ CREATE TABLE request_status (
 
 CREATE TABLE request_task (
     id SERIAL PRIMARY KEY,
-    requester_id INT REFERENCES requesters (id),
-    organization_id INT REFERENCES organizations (id),
-    request_id INT REFERENCES requests (id),
+    requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
+    organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    request_id INT REFERENCES requests (id) ON DELETE CASCADE,
     point_earnings INT NOT NULL,
     due_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -121,7 +121,7 @@ CREATE TABLE task_progress (
 
 CREATE TABLE assigned_tasks (
     id SERIAL PRIMARY KEY,
-    request_task_id INT REFERENCES request_task (id),
+    request_task_id INT REFERENCES request_task (id) ON DELETE CASCADE,
     volunteer_id INT REFERENCES volunteers (id),
     task_progress_id INT REFERENCES task_progress (id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
