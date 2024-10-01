@@ -32,7 +32,7 @@ const createRequest = async (request) => {
 
     try {
         const newRequest = await db.one(
-            "INSERT INTO requests (org_id, requester_id, volunteer_id, description, status_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
+            "INSERT INTO requests (requester_id, volunteer_id, org_id, status_id, description) VALUES($1, $2, $3, $4, $5) RETURNING *",
             [requester_id, volunteer_id, org_id, status_id, description]
         );
         return newRequest;
@@ -42,11 +42,11 @@ const createRequest = async (request) => {
 };
 
 const updateRequest = async (id, request) => {
-    const { requester_id, volunteer_id, org_id, status_id, description } = request;
+    const { requester_id, volunteer_id, org_id, status_id, description, created_at, updated_at } = request;
 
     try {
-        const updatedRequest = await db.one("UPDATE requests SET requester_id=$1, volunteer_id=$2, org_id=$4, status_id=$5, description=$6 WHERE id=$7 RETURNING *"
-            [requester_id, volunteer_id, org_id, status_id, description, id]
+        const updatedRequest = await db.one("UPDATE requests SET requester_id=$1, volunteer_id=$2, org_id=$3, status_id=$4, description=$5, created_at=$6, updated_at=$7 WHERE id=$8 RETURNING *",
+            [requester_id, volunteer_id, org_id,status_id, description, created_at, updated_at, id]
         );
         return updatedRequest;
     } catch (error) {
