@@ -37,7 +37,6 @@ CREATE TABLE requesters (
 
 CREATE TABLE volunteers (
     id SERIAL PRIMARY KEY,
-    uid VARCHAR(255) UNIQUE NOT NULL,
     organization_id INT REFERENCES organizations (id),
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -53,7 +52,7 @@ CREATE TABLE requests (
     org_id INT REFERENCES organizations (id),
     volunteer_id INT REFERENCES volunteers (id),
     requester_id INT REFERENCES requesters (id),
-    status_id INT NOT NULL,
+    status_id REFERENCES request_status (id),
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
