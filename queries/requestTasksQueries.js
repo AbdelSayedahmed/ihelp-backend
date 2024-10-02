@@ -19,10 +19,27 @@ const getRequestTaskById = async (id) => {
     }
 };
 
+const createRequestTask = async (requestTask) => {
+    const {
+        requester_id,
+        organization_id,
+        request_id,
+        point_earnings,
+        due_date,
+    } = requestTask;
+
+    try {
+        const newRequestTask = await db.one("INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, due_date) VALUES($1, $2, $3, $4, $5) RETURNING *", [requester_id, organization_id, request_id, point_earnings, due_date]);
+        return newRequestTask;
+    } catch (error) {
+        throw error;
+    }
+};
+
 module.exports = {
     getAllRequestTasks,
     getRequestTaskById,
-    // createRequestTask,
+    createRequestTask,
     // updateRequestTask,
     // deleteRequestTask
 }
