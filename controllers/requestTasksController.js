@@ -3,7 +3,7 @@ const requestTasks = express.Router();
 const {
     getAllRequestTasks,
     getRequestTaskById,
-    // createRequestTask,
+    createRequestTask,
     // updateRequestTask,
     // deleteRequestTask
 } = require("../queries/requestTasksQueries");
@@ -26,6 +26,15 @@ requestTasks.get("/:id", async (req, res) => {
         } else {
             res.status(404).json({ error: "Tasks not found" });
         }
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+requestTasks.post("/", async (req, res) => {
+    try {
+        const newRequestTask = await createRequestTask(req.body);
+        res.status(201).json(newRequestTask);
     } catch (error) {
         res.status(500).json({ error: "Server error" });
     }
