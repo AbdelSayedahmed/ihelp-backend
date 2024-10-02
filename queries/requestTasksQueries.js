@@ -47,7 +47,8 @@ const updateRequestTask = async (id, requestTask) => {
 
     try {
         const updatedRequestTask = await db.one(
-            "UPDATE request_task SET requester_id=$1, organization_id=$2, request_id=$3, point_earnings=$4 due_date=$5 WHERE id=$6 RETURNING *", [
+            "UPDATE request_task SET requester_id=$1, organization_id=$2, request_id=$3, point_earnings=$4, due_date=$5 WHERE id=$6 RETURNING *", 
+            [
                 requester_id,
                 organization_id,
                 request_id,
@@ -79,4 +80,4 @@ module.exports = {
     createRequestTask,
     updateRequestTask,
     deleteRequestTask
-}
+};
