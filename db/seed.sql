@@ -14,7 +14,7 @@ INSERT INTO organizations (address_id, phone, name, description) VALUES
 (4, '555-1122', 'Volunteer Heroes', 'A group dedicated to volunteering for various causes'),
 (5, '555-3344', 'Aid Action', 'Providing aid to people affected by natural disasters');
 
-INSERT INTO requesters (org_id, name, phone) VALUES
+INSERT INTO requesters (organization_id, name, phone) VALUES
 (1, 'John Doe', '555-0001'),
 (2, 'Jane Smith', '555-0002'),
 (3, 'Bob Johnson', '555-0003'),
@@ -28,18 +28,18 @@ INSERT INTO volunteers (organization_id, name, email, age, points_earned) VALUES
 (4, 'Antonio Martinez', 'amartinez@pursuit.org', 28, 90),
 (5, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 20, 351);
 
-INSERT INTO requests (org_id, volunteer_id, requester_id, status_id, description) VALUES
+INSERT INTO request_status (name) VALUES 
+('OPEN'), 
+('ASSIGNED'), 
+('COMPLETE');
+
+INSERT INTO requests (organization_id, volunteer_id, requester_id, status_id, description) VALUES
 (1, 1, 1, 1, 'Help with grocery shopping'),
 (2, 2, 2, 1, 'Assistance with home cleaning'),
 (3, 3, 3, 2, 'Need a ride to the doctor'),
 (4, 4, 4, 3, 'Help moving furniture'),
 (5, 5, 5, 2, 'Deliver meals to elderly neighbors');
 
-INSERT INTO request_status (name) VALUES 
-('OPEN'), 
-('ASSIGNED'), 
-('COMPLETE'), 
-('COMPLETE');
 
 INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, due_date) VALUES
 (1, 1, 1, 50, '2024-09-30'),
