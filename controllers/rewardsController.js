@@ -8,6 +8,8 @@ const {
   deleteReward,
 }= require("../queries/rewardsQueries");
 
+
+
   // INDEX
   rewards.get("/", async (req, res) => {
     try {
@@ -19,6 +21,7 @@ const {
       res.status(500).json({ error: "Server error" });
     }
   });
+
 
   rewards.get("/:id", async (req, res) => {
     const { id } = req.params;
@@ -74,3 +77,7 @@ const {
 });
 
     module.exports = rewards;
+
+
+    module.exports = rewards;
+
