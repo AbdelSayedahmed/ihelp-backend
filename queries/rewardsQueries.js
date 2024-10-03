@@ -1,4 +1,7 @@
+
 const db = require("../db/db-config.js");
+
+const db = require("../db/dbConfig");
 
 const getAllRewards = async () => {
   try {
@@ -8,6 +11,7 @@ const getAllRewards = async () => {
     return error;
   }
 };
+
 const getRewardById = async (id) => {
   try {
     const reward = await db.one("SELECT * FROM rewards WHERE id=$1", id);
@@ -16,6 +20,8 @@ const getRewardById = async (id) => {
     return error;
   }
 };
+
+
 const createReward = async (reward) => {
   try {
     const newReward = await db.one(
@@ -27,6 +33,8 @@ const createReward = async (reward) => {
     return error;
   }
 };
+
+
 const updateReward = async (id, reward) => {
   try {
     const updatedReward = await db.one(
@@ -38,6 +46,8 @@ const updateReward = async (id, reward) => {
     return error;
   }
 };
+
+
 const deleteReward = async (id) => {
   try {
     const deletedReward = await db.one(
@@ -49,6 +59,8 @@ const deleteReward = async (id) => {
     return error;
   }
 };
+
+
 module.exports = {
   getAllRewards,
   getRewardById,
