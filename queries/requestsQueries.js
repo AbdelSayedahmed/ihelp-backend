@@ -2,6 +2,8 @@ const db = require("../db/db-config.js");
 
 const { getVolunteerById } = require("../queries/volunteersQueries.js");
 const { getRequesterById } = require("../queries/requestersQueries.js");
+const { getStatusById } = require("../queries/statusesQueries.js")
+const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 
 const getAllRequests = async () => {
 	try {
@@ -16,9 +18,13 @@ const getAllRequests = async () => {
 const getRequestById = async (id) => {
 	try {
 		const request = await db.one("SELECT * FROM requests WHERE id=$1", id);
+        const request_task = await db.one("SELECT * FROM request_task WHERE id=$1", id);
+        
 		const volunteer = await getVolunteerById(request.volunteer_id);
-		console.log(volunteer);
+		// console.log(volunteer);
 		const requester = await getRequesterById(request.requester_id);
+        const status = await getStatusById(request.status_id);
+        const requestTask = await getRequestTaskById(request_task.request_id)
 
 		const results = {
 			id: request.id,
@@ -30,13 +36,29 @@ const getRequestById = async (id) => {
 				name: volunteer.name,
 				email: volunteer.email,
 				age: volunteer.age,
-				points_earned: volunteer.points_earned,
+				points_earned: volunteer.points_earned
 			},
 			requester: {
 				id: requester.id,
 				name: requester.name,
-				phone: requester.phone,
+				phone: requester.phone
 			},
+            status: {
+                id: status.id,
+                name: status.name
+            },
+            task: [{
+                id: requestTask.id,
+                description: requestTask.description,
+                due_date: requestTask.due_date,
+                points_earned: requestTask.points_earned,
+                assigned_volunteers: [{
+                    id: volunteer.id,
+                    name: volunteer.name,
+                    email: volunteer.email
+                }],
+                task_progress: [{}]
+            }]
 		};
 		return results;
 	} catch (error) {
