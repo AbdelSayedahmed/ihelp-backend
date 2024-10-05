@@ -8,7 +8,6 @@ const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 const getAllRequests = async () => {
   try {
     const allRequests = await db.any("SELECT * FROM requests");
-    console.log(allRequests);
     return allRequests;
   } catch (error) {
     throw error;

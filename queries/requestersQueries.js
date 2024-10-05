@@ -3,7 +3,6 @@ const db = require("../db/db-config.js");
 const getAllRequesters = async () => {
   try {
     const allRequesters = await db.any("SELECT * FROM requesters");
-    console.log(allRequesters);
     return allRequesters;
   } catch (error) {
     throw error;
