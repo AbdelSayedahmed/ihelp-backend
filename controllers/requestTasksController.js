@@ -19,12 +19,13 @@ requestTasks.get("/", async (req, res) => {
 
 requestTasks.get("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const requestTask = await getRequestTaskById(id);
     if (requestTask) {
-      res.json(requestTask);
+      res.status(200).json(requestTask);
     } else {
-      res.status(404).json({ error: "Tasks not found" });
+      res.status(404).json({ error: "Task not found" });
     }
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -32,6 +33,11 @@ requestTasks.get("/:id", async (req, res) => {
 });
 
 requestTasks.post("/", async (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description)
+    return res.status(400).json({ error: "Missing required fields" });
+
   try {
     const newRequestTask = await createRequestTask(req.body);
     res.status(201).json(newRequestTask);
@@ -42,6 +48,11 @@ requestTasks.post("/", async (req, res) => {
 
 requestTasks.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { title, description } = req.body;
+
+  if (!title || !description)
+    return res.status(400).json({ error: "Missing required fields" });
+
   try {
     const updatedRequestTask = await updateRequestTask(id, req.body);
     if (updatedRequestTask) {
@@ -56,6 +67,7 @@ requestTasks.put("/:id", async (req, res) => {
 
 requestTasks.delete("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const deletedRequestTask = await deleteRequestTask(id);
     if (deletedRequestTask) {
