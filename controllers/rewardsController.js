@@ -19,10 +19,11 @@ rewards.get("/", async (req, res) => {
 
 rewards.get("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const reward = await getRewardById(id);
     if (reward) {
-      res.json(reward);
+      res.status(200).json(reward);
     } else {
       res.status(404).json({ error: "Reward not found" });
     }
@@ -30,7 +31,13 @@ rewards.get("/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 rewards.post("/", async (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description)
+    return res.status(400).json({ error: "Missing required fields" });
+
   try {
     const newReward = await createReward(req.body);
     res.status(201).json(newReward);
@@ -41,9 +48,13 @@ rewards.post("/", async (req, res) => {
 
 rewards.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { body } = req;
+  const { title, description } = req.body;
+
+  if (!title || !description)
+    return res.status(400).json({ error: "Missing required fields" });
+
   try {
-    const updatedReward = await updateReward(id, body);
+    const updatedReward = await updateReward(id, req.body);
     if (updatedReward) {
       res.status(200).json(updatedReward);
     } else {
@@ -53,6 +64,7 @@ rewards.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 rewards.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -66,7 +78,5 @@ rewards.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
-module.exports = rewards;
 
 module.exports = rewards;
