@@ -19,6 +19,7 @@ organizations.get("/", async (req, res) => {
 
 organizations.get("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const organization = await getOrganizationById(id);
     if (organization) {
@@ -32,6 +33,10 @@ organizations.get("/:id", async (req, res) => {
 });
 
 organizations.post("/", async (req, res) => {
+  const { name, description } = req.body;
+
+  if (!name || !description) return res.status(400).json({ error: "Missing required fields" });
+
   try {
     const newOrganization = await createOrganization(req.body);
     res.status(201).json(newOrganization);
@@ -40,12 +45,16 @@ organizations.post("/", async (req, res) => {
   }
 });
 
-organizations.delete("/:id", async (req, res) => {
+organizations.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { name, description } = req.body;
+
+  if (!name || !description) return res.status(400).json({ error: "Missing required fields" });
+
   try {
-    const deletedOrganization = await deleteOrganization(id);
-    if (deletedOrganization) {
-      res.status(200).json(deletedOrganization);
+    const updatedOrganization = await updateOrganization(id, req.body);
+    if (updatedOrganization) {
+      res.status(200).json(updatedOrganization);
     } else {
       res.status(404).json({ error: "Organization not found" });
     }
@@ -54,12 +63,13 @@ organizations.delete("/:id", async (req, res) => {
   }
 });
 
-organizations.put("/:id", async (req, res) => {
+organizations.delete("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
-    const updatedOrganization = await updateOrganization(id, req.body);
-    if (updatedOrganization) {
-      res.status(200).json(updatedOrganization);
+    const deletedOrganization = await deleteOrganization(id);
+    if (deletedOrganization) {
+      res.status(200).json(deletedOrganization);
     } else {
       res.status(404).json({ error: "Organization not found" });
     }
