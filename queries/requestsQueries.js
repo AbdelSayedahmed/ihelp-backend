@@ -6,8 +6,8 @@ const { getStatusById } = require("../queries/statusesQueries.js");
 const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 
 const getAllRequests = async () => {
-	try {
-	  const allRequests = await db.any(`
+  try {
+    const allRequests = await db.any(`
 		  SELECT 
 			requests.id,
 			requests.organization_id,
@@ -25,11 +25,11 @@ const getAllRequests = async () => {
 		  LEFT JOIN requesters ON requests.requester_id = requesters.id
 		  LEFT JOIN request_status ON requests.status_id = request_status.id
 		`);
-	  return allRequests;
-	} catch (error) {
-	  console.error("Error fetching requests:", error);
-	  throw new Error("Unable to retrieve requests");
-	}
+    return allRequests;
+  } catch (error) {
+    console.error("Error fetching requests:", error);
+    throw new Error("Unable to retrieve requests");
+  }
 };
 
 const getRequestById = async (id) => {
