@@ -7,11 +7,28 @@ const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 
 const getAllRequests = async () => {
 	try {
-		const allRequests = await db.any("SELECT * FROM requests");
-		console.log(allRequests);
-		return allRequests;
+	  const allRequests = await db.any(`
+		  SELECT 
+			requests.id,
+			requests.organization_id,
+			requests.volunteer_id,
+			volunteers.name AS volunteer_name,
+			requests.requester_id,
+			requesters.name AS requester_name,
+			requests.status_id,
+			request_status.name AS status_name,
+			requests.description,
+			requests.created_at,
+			requests.updated_at
+		  FROM requests
+		  LEFT JOIN volunteers ON requests.volunteer_id = volunteers.id
+		  LEFT JOIN requesters ON requests.requester_id = requesters.id
+		  LEFT JOIN request_status ON requests.status_id = request_status.id
+		`);
+	  return allRequests;
 	} catch (error) {
-		throw error;
+	  console.error("Error fetching requests:", error);
+	  throw new Error("Unable to retrieve requests");
 	}
 };
 
