@@ -19,10 +19,11 @@ requests.get("/", async (req, res) => {
 
 requests.get("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const request = await getRequestById(id);
     if (request) {
-      res.json(request);
+      res.status(200).json(request);
     } else {
       res.status(404).json({ error: "Request not found" });
     }
@@ -32,6 +33,10 @@ requests.get("/:id", async (req, res) => {
 });
 
 requests.post("/", async (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description) return res.status(400).json({ error: "Missing required fields" });
+
   try {
     const newRequest = await createRequest(req.body);
     res.status(201).json(newRequest);
@@ -42,6 +47,10 @@ requests.post("/", async (req, res) => {
 
 requests.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { title, description } = req.body;
+
+  if (!title || !description) return res.status(400).json({ error: "Missing required fields" });
+
   try {
     const updatedRequest = await updateRequest(id, req.body);
     if (updatedRequest) {
@@ -56,6 +65,7 @@ requests.put("/:id", async (req, res) => {
 
 requests.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  
   try {
     const deletedRequest = await deleteRequest(id);
     if (deletedRequest) {
