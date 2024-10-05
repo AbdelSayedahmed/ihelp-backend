@@ -235,10 +235,6 @@ This schema provides a robust foundation for managing volunteers, tasks, and rew
 - `PUT /volunteers/:id` - Update a Volunteer by ID
 - `DELETE /volunteers/:id` - Delete a Volunteer by ID
 
-### Badges and Game Progress
-
-- Endpoints to manage badges and game progress can be added similarly.
-
 ## Seeding the Database
 
 To seed the database with initial data, run the following command:
