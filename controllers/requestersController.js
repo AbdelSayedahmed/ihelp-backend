@@ -8,7 +8,6 @@ const {
   deleteRequester,
 } = require("../queries/requestersQueries");
 
-// INDEX
 requesters.get("/", async (req, res) => {
   try {
     const allRequesters = await getAllRequesters();
@@ -32,7 +31,6 @@ requesters.get("/:id", async (req, res) => {
   }
 });
 
-// CREATE
 requesters.post("/", async (req, res) => {
   try {
     const newRequester = await createRequester(req.body);

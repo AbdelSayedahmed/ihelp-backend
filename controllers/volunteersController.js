@@ -8,7 +8,6 @@ const {
   deleteVolunteer,
 } = require("../queries/volunteersQueries");
 
-// INDEX
 volunteers.get("/", async (req, res) => {
   try {
     const allVolunteers = await getAllVolunteers();
@@ -18,7 +17,6 @@ volunteers.get("/", async (req, res) => {
   }
 });
 
-// SHOW
 volunteers.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -33,7 +31,6 @@ volunteers.get("/:id", async (req, res) => {
   }
 });
 
-// CREATE
 volunteers.post("/", async (req, res) => {
   try {
     const newVolunteer = await createVolunteer(req.body);
@@ -43,7 +40,6 @@ volunteers.post("/", async (req, res) => {
   }
 });
 
-// UPDATE
 volunteers.put("/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -58,7 +54,6 @@ volunteers.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE
 volunteers.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
