@@ -244,7 +244,7 @@ This schema provides a robust foundation for managing volunteers, tasks, and rew
 To seed the database with initial data, run the following command:
 
 ```bash
-npm start
+npm run start
 ```
 
 This command will execute the SQL files to create the schema and populate it with sample data.
