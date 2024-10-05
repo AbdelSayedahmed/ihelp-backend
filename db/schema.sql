@@ -65,7 +65,6 @@ CREATE TABLE requests (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE request_task (
     id SERIAL PRIMARY KEY,
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
