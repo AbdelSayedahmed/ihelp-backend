@@ -19,10 +19,11 @@ status.get("/", async (req, res) => {
 
 status.get("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
-    const status = await getStatusById(id);
-    if (status) {
-      res.json(status);
+    const statusResult = await getStatusById(id);
+    if (statusResult) {
+      res.status(200).json(statusResult);
     } else {
       res.status(404).json({ error: "Status not found" });
     }
@@ -32,6 +33,10 @@ status.get("/:id", async (req, res) => {
 });
 
 status.post("/", async (req, res) => {
+  const { name } = req.body;
+
+  if (!name) return res.status(400).json({ error: "Missing required field: name" });
+
   try {
     const newStatus = await createStatus(req.body);
     res.status(201).json(newStatus);
@@ -42,10 +47,17 @@ status.post("/", async (req, res) => {
 
 status.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { name } = req.body;
+
+  if (!name) return res.status(400).json({ error: "Missing required field: name" });
+
   try {
     const updatedStatus = await updateStatus(id, req.body);
-
-    res.status(200).json(updatedStatus);
+    if (updatedStatus) {
+      res.status(200).json(updatedStatus);
+    } else {
+      res.status(404).json({ error: "Status not found" });
+    }
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
@@ -53,6 +65,7 @@ status.put("/:id", async (req, res) => {
 
 status.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  
   try {
     const deletedStatus = await deleteStatus(id);
     if (deletedStatus) {
