@@ -3,17 +3,14 @@ const cors = require("cors");
 const express = require("express");
 
 // Route Imports
-const requestersController = require("./controllers/requestersController");
-const volunteersController = require("./controllers/volunteersController");
-const organizationsController = require("./controllers/organizationsController");
 const badgesController = require("./controllers/badgesController");
+const organizationsController = require("./controllers/organizationsController");
+const requestersController = require("./controllers/requestersController");
 const requestsController = require("./controllers/requestsController");
-
-const rewardsController = require("./controllers/rewardsController");
-
-
 const requestTasksController = require("./controllers/requestTasksController");
+const rewardsController = require("./controllers/rewardsController");
 const statusesController = require("./controllers/statusesController");
+const volunteersController = require("./controllers/volunteersController");
 
 // Configuration
 const app = express();
@@ -26,17 +23,14 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome to iHelp"));
 
 // Routes
-app.use("/requesters", requestersController);
-app.use("/volunteers", volunteersController);
-app.use("/organizations", organizationsController);
 app.use("/badges", badgesController);
+app.use("/organizations", organizationsController);
+app.use("/requesters", requestersController);
 app.use("/requests", requestsController);
-
-app.use("/rewards", rewardsController);
-
 app.use("/tasks", requestTasksController);
+app.use("/rewards", rewardsController);
 app.use("/statuses", statusesController);
-
+app.use("/volunteers", volunteersController);
 
 // 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));

@@ -8,7 +8,6 @@ const {
   deleteVolunteer,
 } = require("../queries/volunteersQueries");
 
-// INDEX
 volunteers.get("/", async (req, res) => {
   try {
     const allVolunteers = await getAllVolunteers();
@@ -18,13 +17,13 @@ volunteers.get("/", async (req, res) => {
   }
 });
 
-// SHOW
 volunteers.get("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const volunteer = await getVolunteerById(id);
     if (volunteer) {
-      res.json(volunteer);
+      res.status(200).json(volunteer);
     } else {
       res.status(404).json({ error: "Volunteer not found" });
     }
@@ -33,8 +32,11 @@ volunteers.get("/:id", async (req, res) => {
   }
 });
 
-// CREATE
 volunteers.post("/", async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) return res.status(400).json({ error: "Missing required fields: name and email" });
+
   try {
     const newVolunteer = await createVolunteer(req.body);
     res.status(201).json(newVolunteer);
@@ -43,9 +45,12 @@ volunteers.post("/", async (req, res) => {
   }
 });
 
-// UPDATE
 volunteers.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { name, email } = req.body;
+
+  if (!name || !email) return res.status(400).json({ error: "Missing required fields: name and email" });
+
   try {
     const updatedVolunteer = await updateVolunteer(id, req.body);
     if (updatedVolunteer) {
@@ -58,9 +63,9 @@ volunteers.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE
 volunteers.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  
   try {
     const deletedVolunteer = await deleteVolunteer(id);
     if (deletedVolunteer) {
