@@ -3,7 +3,6 @@ const db = require("../db/db-config.js");
 const getAllStatuses = async () => {
   try {
     const allStatuses = await db.any("SELECT * FROM request_status");
-    console.log(allStatuses);
     return allStatuses;
   } catch (error) {
     throw error;
@@ -19,7 +18,7 @@ const getStatusById = async (id) => {
   }
 };
 
-    const createStatus = async (status) => {
+const createStatus = async (status) => {
   const { name, description } = status;
 
   try {
@@ -31,9 +30,9 @@ const getStatusById = async (id) => {
   } catch (error) {
     throw error;
   }
-  };
+};
 
-  const deleteStatus = async (id) => {
+const deleteStatus = async (id) => {
   try {
     const deletedStatus = await db.one(
       "DELETE FROM request_status WHERE id = $1 RETURNING *",
@@ -45,7 +44,7 @@ const getStatusById = async (id) => {
   }
 };
 
-const  updateStatus = async (id, status) => {
+const updateStatus = async (id, status) => {
   const { name } = status;
 
   try {
@@ -56,12 +55,13 @@ const  updateStatus = async (id, status) => {
     return updatedStatus;
   } catch (error) {
     throw error;
-  } 
-  };
-  module.exports = {
-    getAllStatuses,
-    getStatusById,
-    createStatus,
-    updateStatus,
-    deleteStatus,
-  };
+  }
+};
+
+module.exports = {
+  getAllStatuses,
+  getStatusById,
+  createStatus,
+  updateStatus,
+  deleteStatus,
+};
