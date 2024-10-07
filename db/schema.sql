@@ -61,6 +61,7 @@ CREATE TABLE requests (
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
     status_id INT REFERENCES request_status (id) ON DELETE CASCADE,
     description TEXT NOT NULL,
+    catagory VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -71,6 +72,7 @@ CREATE TABLE request_task (
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     request_id INT REFERENCES requests (id) ON DELETE CASCADE,
     point_earnings INT NOT NULL,
+    task TEXT,
     due_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
