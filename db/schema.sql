@@ -17,7 +17,7 @@ CREATE TABLE addresses (
 
 CREATE TABLE organizations (
     id SERIAL PRIMARY KEY,
-    address_id INT REFERENCES addresses (id),
+    address_id INT REFERENCES addresses (id) ON DELETE CASCADE,
     phone VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE organizations (
 
 CREATE TABLE requesters (
     id SERIAL PRIMARY KEY,
-    org_id INT REFERENCES organizations (id),
+    organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -37,7 +37,7 @@ CREATE TABLE requesters (
 
 CREATE TABLE volunteers (
     id SERIAL PRIMARY KEY,
-    organization_id INT REFERENCES organizations (id),
+    organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     age INT NOT NULL,
@@ -47,24 +47,25 @@ CREATE TABLE volunteers (
     is_active BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE requests (
-    id SERIAL PRIMARY KEY,
-    org_id INT REFERENCES organizations (id) ON DELETE CASCADE,
-    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
-    requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
-    status_id REFERENCES request_status (id),
-    description TEXT NOT NULL,
-    catagory VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE request_status (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE requests (
+    id SERIAL PRIMARY KEY,
+    organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
+    requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
+    status_id INT REFERENCES request_status (id) ON DELETE CASCADE,
+    description TEXT NOT NULL,
+    catagory VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE TABLE request_task (
     id SERIAL PRIMARY KEY,
@@ -82,7 +83,7 @@ CREATE TABLE rewards (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    organization_id INT REFERENCES organizations (id),
+    organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     points_required INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -90,8 +91,8 @@ CREATE TABLE rewards (
 
 CREATE TABLE rewards_earned (
     id SERIAL PRIMARY KEY,
-    reward_id INT REFERENCES rewards (id),
-    volunteer_id INT REFERENCES volunteers (id),
+    reward_id INT REFERENCES rewards (id) ON DELETE CASCADE,
+    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -108,8 +109,8 @@ CREATE TABLE badges (
 
 CREATE TABLE badges_earned (
     id SERIAL PRIMARY KEY,
-    volunteer_id INT REFERENCES volunteers (id),
-    badge_id INT REFERENCES badges (id),
+    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
+    badge_id INT REFERENCES badges (id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -124,8 +125,8 @@ CREATE TABLE task_progress (
 CREATE TABLE assigned_tasks (
     id SERIAL PRIMARY KEY,
     request_task_id INT REFERENCES request_task (id) ON DELETE CASCADE,
-    volunteer_id INT REFERENCES volunteers (id),
-    task_progress_id INT REFERENCES task_progress (id),
+    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
+    task_progress_id INT REFERENCES task_progress (id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
