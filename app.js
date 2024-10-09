@@ -1,6 +1,7 @@
 // Dependencies
 const cors = require("cors");
 const express = require("express");
+const { verifyToken } = require("./middleware/auth.middleware.js");
 
 // Route Imports
 const badgesController = require("./controllers/badgesController");
@@ -26,11 +27,11 @@ app.get("/", (req, res) => res.send("Welcome to iHelp"));
 app.use("/badges", badgesController);
 app.use("/organizations", organizationsController);
 app.use("/requesters", requestersController);
-app.use("/requests", requestsController);
-app.use("/tasks", requestTasksController);
+app.use("/requests", verifyToken, requestsController);
+app.use("/tasks", verifyToken, requestTasksController);
 app.use("/rewards", rewardsController);
 app.use("/statuses", statusesController);
-app.use("/volunteers", volunteersController);
+app.use("/volunteers", verifyToken, volunteersController);
 
 // 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));
