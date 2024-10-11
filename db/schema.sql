@@ -63,7 +63,7 @@ CREATE TABLE requests (
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
     status_id INT REFERENCES request_status (id) ON DELETE CASCADE,
     description TEXT NOT NULL,
-    catagory VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
