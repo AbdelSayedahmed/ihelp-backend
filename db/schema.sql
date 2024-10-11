@@ -16,6 +16,7 @@ CREATE TABLE addresses (
 );
 
 CREATE TABLE organizations (
+    uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
     address_id INT REFERENCES addresses (id) ON DELETE CASCADE,
     phone VARCHAR(255) NOT NULL,
@@ -36,6 +37,7 @@ CREATE TABLE requesters (
 );
 
 CREATE TABLE volunteers (
+    uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
