@@ -10,7 +10,8 @@ const {
 
 requesters.get("/", async (req, res) => {
   try {
-    const allRequesters = await getAllRequesters();
+    const uid = req.user.uid;
+    const allRequesters = await getAllRequesters(uid);
     res.status(200).json(allRequesters);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -34,11 +35,12 @@ requesters.get("/:id", async (req, res) => {
 
 requesters.post("/", async (req, res) => {
   const { name, email } = req.body;
+  const uid = req.user.uid;
 
   if (!name || !email) return res.status(400).json({ error: "Missing required fields" });
 
   try {
-    const newRequester = await createRequester(req.body);
+    const newRequester = await createRequester(uid, req.body);
     res.status(201).json(newRequester);
   } catch (error) {
     res.status(500).json({ error: "Server error" });

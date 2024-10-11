@@ -31,12 +31,12 @@ app.get("/", (req, res) => res.send("Welcome to iHelp"));
 
 // Routes
 app.use("/badges", badgesController);
-app.use("/organizations", organizationsController);
-app.use("/requesters", requestersController);
+app.use("/organizations", verifyToken, organizationsController);
+app.use("/requesters", verifyToken, requestersController);
 app.use("/requests", verifyToken, requestsController);
 app.use("/tasks", verifyToken, requestTasksController);
-app.use("/rewards", rewardsController);
-app.use("/statuses", statusesController);
+app.use("/rewards", verifyToken, rewardsController);
+app.use("/statuses", verifyToken, statusesController);
 app.use("/volunteers", verifyToken, volunteersController);
 
 // 404 Page
