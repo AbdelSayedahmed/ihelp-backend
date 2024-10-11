@@ -1,11 +1,38 @@
 const db = require("../db/db-config.js");
 
-const getAllRewards = async () => {
+const getAllRewards = async (uid) => {
   try {
-    const allRewards = await db.any("SELECT * FROM rewards");
+    const organization = await db.oneOrNone(
+      "SELECT id FROM organizations WHERE uid = $1",
+      [uid]
+    );
+
+    console.log("Organization:", organization);
+
+    if (!organization) {
+      throw new Error("Organization not found");
+    }
+
+    const allRewards = await db.any(
+      `
+      SELECT 
+        rewards.id,
+        rewards.name,
+        rewards.description,
+        rewards.organization_id,
+        rewards.points_required,
+        rewards.created_at,
+        rewards.updated_at
+      FROM rewards
+      WHERE rewards.organization_id = $1
+      `,
+      [organization.id]
+    );
+
     return allRewards;
   } catch (error) {
-    return error;
+    console.error("Error fetching rewards:", error);
+    throw new Error("Server error");
   }
 };
 
