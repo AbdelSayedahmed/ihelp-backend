@@ -35,7 +35,8 @@ badges.get("/:id", async (req, res) => {
 badges.post("/", async (req, res) => {
   const { name, description } = req.body;
 
-  if (!name || !description) return res.status(400).json({ error: "Missing required fields" });
+  if (!name || !description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const newBadge = await createBadge(req.body);
@@ -48,7 +49,8 @@ badges.post("/", async (req, res) => {
 badges.put("/:id", async (req, res) => {
   const { id } = req.params;
 
-  if (!req.body.name || !req.body.description) return res.status(400).json({ error: "Missing required fields" });
+  if (!req.body.name || !req.body.description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const updatedBadge = await updateBadge(id, req.body);

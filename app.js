@@ -30,7 +30,7 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome to iHelp"));
 
 // Routes
-app.use("/badges", verifyToken, badgesController);
+app.use("/badges", badgesController);
 app.use("/organizations", verifyToken, organizationsController);
 app.use("/requesters", verifyToken, requestersController);
 app.use("/requests", verifyToken, requestsController);
