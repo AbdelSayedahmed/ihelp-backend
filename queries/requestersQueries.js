@@ -15,7 +15,7 @@ const getAllRequesters = async (uid) => {
       `
       SELECT 
         requesters.id,
-        requesters.name AS requester_name,
+        requesters.name,
         requesters.phone,
         requesters.created_at,
         requesters.updated_at
