@@ -10,7 +10,8 @@ const {
 
 requests.get("/", async (req, res) => {
   try {
-    const allRequests = await getAllRequests();
+    const uid = req.user.uid;
+    const allRequests = await getAllRequests(uid);
     res.status(200).json(allRequests);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -35,7 +36,8 @@ requests.get("/:id", async (req, res) => {
 requests.post("/", async (req, res) => {
   const { title, description } = req.body;
 
-  if (!title || !description) return res.status(400).json({ error: "Missing required fields" });
+  if (!title || !description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const newRequest = await createRequest(req.body);
@@ -49,7 +51,8 @@ requests.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title, description } = req.body;
 
-  if (!title || !description) return res.status(400).json({ error: "Missing required fields" });
+  if (!title || !description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const updatedRequest = await updateRequest(id, req.body);
@@ -65,7 +68,7 @@ requests.put("/:id", async (req, res) => {
 
 requests.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const deletedRequest = await deleteRequest(id);
     if (deletedRequest) {

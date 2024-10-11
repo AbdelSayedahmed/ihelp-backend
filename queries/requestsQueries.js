@@ -1,21 +1,19 @@
 const db = require("../db/db-config.js");
-
 const { getVolunteerById } = require("../queries/volunteersQueries.js");
 const { getRequesterById } = require("../queries/requestersQueries.js");
 const { getStatusById } = require("../queries/statusesQueries.js");
 const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 
-const getAllRequests = async () => {
+const getAllRequests = async (uid) => {
   try {
-    const { uid } = req.user;
-
     const organization = await db.oneOrNone(
       "SELECT id FROM organizations WHERE uid = $1",
       [uid]
     );
+    console.log("Organization:", organization);
 
     if (!organization) {
-      return res.status(404).json({ error: "Organization not found" });
+      throw new Error("Organization not found");
     }
 
     const allRequests = await db.any(
@@ -41,10 +39,11 @@ const getAllRequests = async () => {
       [organization.id]
     );
 
-    res.status(200).json(allRequests);
+    console.log("All Requests:", allRequests);
+    return allRequests;
   } catch (error) {
     console.error("Error fetching requests:", error);
-    res.status(500).json({ error: "Server error" });
+    throw new Error("Server error");
   }
 };
 
