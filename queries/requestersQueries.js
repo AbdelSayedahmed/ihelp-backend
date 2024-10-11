@@ -41,13 +41,22 @@ const getRequesterById = async (id) => {
   }
 };
 
-const createRequester = async (requester) => {
-  const { name, phone, organization_id } = requester;
+const createRequester = async (org_id, requester) => {
+  const { name, phone } = requester;
+
+  const organization = await db.oneOrNone(
+    "SELECT id FROM organizations WHERE uid = $1",
+    [org_id]
+  );
+
+  if (!organization) {
+    throw new Error("Organization not found");
+  }
 
   try {
     const newRequester = await db.one(
       "INSERT INTO requesters (name, phone, organization_id) VALUES($1, $2, $3) RETURNING *",
-      [name, phone, organization_id]
+      [name, phone, organization.id]
     );
     return newRequester;
   } catch (error) {
