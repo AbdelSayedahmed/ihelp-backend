@@ -1,11 +1,41 @@
 const db = require("../db/db-config.js");
 
-const getAllVolunteers = async () => {
+const getAllVolunteers = async (uid) => {
   try {
-    const allVolunteers = await db.any("SELECT * FROM volunteers");
+    const organization = await db.oneOrNone(
+      "SELECT id FROM organizations WHERE uid = $1",
+      [uid]
+    );
+
+    console.log("Organization:", organization);
+
+    if (!organization) {
+      throw new Error("Organization not found");
+    }
+
+    const allVolunteers = await db.any(
+      `
+      SELECT 
+        volunteers.uid,
+        volunteers.id,
+        volunteers.organization_id,
+        volunteers.name,
+        volunteers.email,
+        volunteers.age,
+        volunteers.points_earned,
+        volunteers.created_at,
+        volunteers.updated_at,
+        volunteers.is_active
+      FROM volunteers
+      WHERE volunteers.organization_id = $1
+      `,
+      [organization.id]
+    );
+
     return allVolunteers;
   } catch (error) {
-    throw error;
+    console.error("Error fetching volunteers:", error);
+    throw new Error("Server error");
   }
 };
 
