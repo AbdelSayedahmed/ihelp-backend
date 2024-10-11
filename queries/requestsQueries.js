@@ -10,7 +10,6 @@ const getAllRequests = async (uid) => {
       "SELECT id FROM organizations WHERE uid = $1",
       [uid]
     );
-    console.log("Organization:", organization);
 
     if (!organization) {
       throw new Error("Organization not found");
@@ -39,7 +38,6 @@ const getAllRequests = async (uid) => {
       [organization.id]
     );
 
-    console.log("All Requests:", allRequests);
     return allRequests;
   } catch (error) {
     console.error("Error fetching requests:", error);

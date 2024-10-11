@@ -10,7 +10,8 @@ const {
 
 requesters.get("/", async (req, res) => {
   try {
-    const allRequesters = await getAllRequesters();
+    const uid = req.user.uid;
+    const allRequesters = await getAllRequesters(uid);
     res.status(200).json(allRequesters);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
