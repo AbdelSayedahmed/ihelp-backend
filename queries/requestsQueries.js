@@ -7,28 +7,44 @@ const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 
 const getAllRequests = async () => {
   try {
-    const allRequests = await db.any(`
-		  SELECT 
-			requests.id,
-			requests.organization_id,
-			requests.volunteer_id,
-			volunteers.name AS volunteer_name,
-			requests.requester_id,
-			requesters.name AS requester_name,
-			requests.status_id,
-			request_status.name AS status_name,
-			requests.description,
-			requests.created_at,
-			requests.updated_at
-		  FROM requests
-		  LEFT JOIN volunteers ON requests.volunteer_id = volunteers.id
-		  LEFT JOIN requesters ON requests.requester_id = requesters.id
-		  LEFT JOIN request_status ON requests.status_id = request_status.id
-		`);
-    return allRequests;
+    const { uid } = req.user;
+
+    const organization = await db.oneOrNone(
+      "SELECT id FROM organizations WHERE uid = $1",
+      [uid]
+    );
+
+    if (!organization) {
+      return res.status(404).json({ error: "Organization not found" });
+    }
+
+    const allRequests = await db.any(
+      `
+      SELECT 
+        requests.id,
+        requests.organization_id,
+        requests.volunteer_id,
+        volunteers.name AS volunteer_name,
+        requests.requester_id,
+        requesters.name AS requester_name,
+        requests.status_id,
+        request_status.name AS status_name,
+        requests.description,
+        requests.created_at,
+        requests.updated_at
+      FROM requests
+      LEFT JOIN volunteers ON requests.volunteer_id = volunteers.id
+      LEFT JOIN requesters ON requests.requester_id = requesters.id
+      LEFT JOIN request_status ON requests.status_id = request_status.id
+      WHERE requests.organization_id = $1
+      `,
+      [organization.id]
+    );
+
+    res.status(200).json(allRequests);
   } catch (error) {
     console.error("Error fetching requests:", error);
-    throw new Error("Unable to retrieve requests");
+    res.status(500).json({ error: "Server error" });
   }
 };
 
