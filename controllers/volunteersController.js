@@ -10,7 +10,8 @@ const {
 
 volunteers.get("/", async (req, res) => {
   try {
-    const allVolunteers = await getAllVolunteers();
+    const uid = req.user.uid;
+    const allVolunteers = await getAllVolunteers(uid);
     res.status(200).json(allVolunteers);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
