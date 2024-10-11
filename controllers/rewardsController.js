@@ -10,7 +10,8 @@ const {
 
 rewards.get("/", async (req, res) => {
   try {
-    const allRewards = await getAllRewards();
+    const uid = req.user.uid;
+    const allRewards = await getAllRewards(uid);
     res.status(200).json(allRewards);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
