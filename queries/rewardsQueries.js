@@ -7,8 +7,6 @@ const getAllRewards = async (uid) => {
       [uid]
     );
 
-    console.log("Organization:", organization);
-
     if (!organization) {
       throw new Error("Organization not found");
     }
