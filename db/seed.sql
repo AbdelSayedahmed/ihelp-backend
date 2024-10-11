@@ -33,20 +33,21 @@ INSERT INTO request_status (name) VALUES
 ('ASSIGNED'), 
 ('COMPLETE');
 
-INSERT INTO requests (organization_id, volunteer_id, requester_id, status_id, description) VALUES
-(1, 1, 1, 1, 'Help with grocery shopping'),
-(1, 2, 2, 1, 'Assistance with home cleaning'),
-(1, 3, 3, 2, 'Need a ride to the doctor'),
-(1, 4, 4, 3, 'Help moving furniture'),
-(1, 5, 5, 2, 'Deliver meals to elderly neighbors');
+INSERT INTO requests (organization_id, volunteer_id, requester_id, status_id, description, category) VALUES
+(1, 1, 1, 1, 'Help with grocery shopping', 'CHORES'),
+(1, 2, 2, 1, 'Assistance with home cleaning', 'CHORES'),
+(1, 3, 3, 2, 'Need a ride to the doctor', 'TRANSPORTATION'),
+(1, 4, 4, 3, 'Help moving furniture', 'CHORES'),
+(1, 5, 5, 2, 'Deliver meals to elderly neighbors', 'TRANSPORTATION');
 
 
-INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, due_date) VALUES
-(1, 1, 1, 50, '2024-09-30'),
-(2, 1, 2, 30, '2024-10-01'),
-(3, 1, 3, 40, '2024-10-02'),
-(4, 1, 4, 60, '2024-10-03'),
-(5, 1, 5, 35, '2024-10-04');
+INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date) VALUES
+(1, 1, 1, 50, 'Complete survey', '2024-09-30'),
+(2, 1, 2, 30, 'Attend meeting', '2024-10-01'),
+(3, 1, 3, 40, 'Submit report', '2024-10-02'),
+(4, 1, 4, 60, 'Provide feedback', '2024-10-03'),
+(5, 1, 5, 35, 'Update documentation', '2024-10-04');
+
 
 INSERT INTO rewards (name, description, organization_id, points_required) VALUES
 ('T-Shirt', 'A branded volunteer T-shirt', 1, 100),
