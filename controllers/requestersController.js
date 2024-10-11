@@ -35,11 +35,12 @@ requesters.get("/:id", async (req, res) => {
 
 requesters.post("/", async (req, res) => {
   const { name, email } = req.body;
+  const uid = req.user.uid;
 
   if (!name || !email) return res.status(400).json({ error: "Missing required fields" });
 
   try {
-    const newRequester = await createRequester(req.body);
+    const newRequester = await createRequester(uid, req.body);
     res.status(201).json(newRequester);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
