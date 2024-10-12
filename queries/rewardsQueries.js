@@ -1,7 +1,4 @@
-
 const db = require("../db/db-config.js");
-
-const db = require("../db/dbConfig");
 
 const getAllRewards = async () => {
   try {
