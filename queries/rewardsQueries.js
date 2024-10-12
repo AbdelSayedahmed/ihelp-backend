@@ -1,11 +1,37 @@
 const db = require("../db/db-config.js");
 
-const getAllRewards = async () => {
+
+const getAllRewards = async (uid) => {
   try {
-    const allRewards = await db.any("SELECT * FROM rewards");
+    const organization = await db.oneOrNone(
+      "SELECT id FROM organizations WHERE uid = $1",
+      [uid]
+    );
+
+    if (!organization) {
+      throw new Error("Organization not found");
+    }
+
+    const allRewards = await db.any(
+      `
+      SELECT 
+        rewards.id,
+        rewards.name,
+        rewards.description,
+        rewards.organization_id,
+        rewards.points_required,
+        rewards.created_at,
+        rewards.updated_at
+      FROM rewards
+      WHERE rewards.organization_id = $1
+      `,
+      [organization.id]
+    );
+
     return allRewards;
   } catch (error) {
-    return error;
+    console.error("Error fetching rewards:", error);
+    throw new Error("Server error");
   }
 };
 
@@ -17,7 +43,6 @@ const getRewardById = async (id) => {
     return error;
   }
 };
-
 
 const createReward = async (reward) => {
   try {
@@ -31,7 +56,6 @@ const createReward = async (reward) => {
   }
 };
 
-
 const updateReward = async (id, reward) => {
   try {
     const updatedReward = await db.one(
@@ -44,7 +68,6 @@ const updateReward = async (id, reward) => {
   }
 };
 
-
 const deleteReward = async (id) => {
   try {
     const deletedReward = await db.one(
@@ -56,7 +79,6 @@ const deleteReward = async (id) => {
     return error;
   }
 };
-
 
 module.exports = {
   getAllRewards,

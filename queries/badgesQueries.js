@@ -2,11 +2,23 @@ const db = require("../db/db-config.js");
 
 const getAllBadges = async () => {
   try {
-    const allBadges = await db.any("SELECT * FROM badges");
-    console.log(allBadges);
+    const allBadges = await db.any(
+      `
+      SELECT 
+        badges.id,
+        badges.name,
+        badges.description,
+        badges.img_url,
+        badges.requirement,
+        badges.created_at,
+        badges.updated_at
+      FROM badges
+      `
+    );
     return allBadges;
   } catch (error) {
-    throw error;
+    console.error("Error fetching badges:", error);
+    throw new Error("Server error");
   }
 };
 

@@ -16,6 +16,7 @@ CREATE TABLE addresses (
 );
 
 CREATE TABLE organizations (
+    uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
     address_id INT REFERENCES addresses (id) ON DELETE CASCADE,
     phone VARCHAR(255) NOT NULL,
@@ -37,6 +38,7 @@ CREATE TABLE requesters (
 );
 
 CREATE TABLE volunteers (
+    uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
@@ -62,11 +64,10 @@ CREATE TABLE requests (
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
     status_id INT REFERENCES request_status (id) ON DELETE CASCADE,
     description TEXT NOT NULL,
-    catagory VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 CREATE TABLE request_task (
     id SERIAL PRIMARY KEY,
