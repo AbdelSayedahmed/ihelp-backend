@@ -8,11 +8,11 @@ INSERT INTO addresses (street, apt,  city, state, zip_code) VALUES
 ('202 Birch Rd', '33101', 'Miami', 'FL', '24680');
 
 INSERT INTO organizations (uid, address_id, phone, name, description) VALUES
-('squm207iZ2Smf01SxXoUIS5QhDu2', 1, '555-1234', 'Helping Hands', 'A non-profit that helps people in need'),
-('mtWp8sneeFbF2Jbrq85BIOz5HeC3', 2, '555-5678', 'Community Aid', 'Community volunteer organization'),
-('ii3IqDVdvpREe8msqaSYZMKHQX83', 3, '555-9101', 'Care Givers Volunteer', 'Neighborhood assistance service'),
-('EE6o4BMsuQaJXYdJ4qD9FEb9dZz2', 4, '555-1122', 'Reach out volunteers', 'A group dedicated to volunteering for various causes'),
-('uakdvi5DC4YkL1eyQaQyionZsSi2', 5, '555-3344', 'Hope in act', 'Providing aid to people affected by natural disasters');
+('bxGXTPH6UXeRvYcSODa14QjmXoL2', 1, '1234567890', 'Developer', 'Developer team only'),
+('mtWp8sneeFbF2Jbrq85BIOz5HeC3', 2, '1234567890', 'Community Aid', 'Community volunteer organization'),
+('ii3IqDVdvpREe8msqaSYZMKHQX83', 3, '1234567890', 'Care Givers Volunteer', 'Neighborhood assistance service'),
+('EE6o4BMsuQaJXYdJ4qD9FEb9dZz2', 4, '1234567890', 'Reach out volunteers', 'A group dedicated to volunteering for various causes'),
+('uakdvi5DC4YkL1eyQaQyionZsSi2', 5, '1234567890', 'Hope in act', 'Providing aid to people affected by natural disasters');
 
 INSERT INTO requesters (organization_id, first_name, last_name, phone) VALUES
 (1, 'John', 'Doe', '1235550001'),
