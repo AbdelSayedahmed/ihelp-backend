@@ -1,11 +1,11 @@
 \c ihelp_db;
 
-INSERT INTO addresses (street, city, state, zip_code, country) VALUES 
-('123 Elm St', 'Los Angeles', 'CA', '90001', 'USA'),
-('456 Oak St', 'New York', 'NY', '10001', 'USA'),
-('789 Pine St', 'Chicago', 'IL', '60601', 'USA'),
-('101 Maple Ave', 'Houston', 'TX', '77001', 'USA'),
-('202 Birch Rd', 'Miami', 'FL', '33101', 'USA');
+INSERT INTO addresses (street, city, state, zip_code, appt, country) VALUES 
+('123 Elm St', 'Los Angeles', 'CA', '90001','12345', 'USA'),
+('456 Oak St', 'New York', 'NY', '10001', '67890','USA'),
+('789 Pine St', 'Chicago', 'IL', '60601','54321', 'USA'),
+('101 Maple Ave', 'Houston', 'TX', '77001','98765', 'USA'),
+('202 Birch Rd', 'Miami', 'FL', '33101', '24680','USA');
 
 INSERT INTO organizations (address_id, phone, name, description) VALUES
 (1, '555-1234', 'Helping Hands', 'A non-profit that helps people in need'),
@@ -14,7 +14,7 @@ INSERT INTO organizations (address_id, phone, name, description) VALUES
 (4, '555-1122', 'Volunteer Heroes', 'A group dedicated to volunteering for various causes'),
 (5, '555-3344', 'Aid Action', 'Providing aid to people affected by natural disasters');
 
-INSERT INTO requesters (organization_id, name, phone) VALUES
+INSERT INTO requesters (organization_id, first_name, last_name, phone) VALUES
 (1, 'John Doe', '555-0001'),
 (2, 'Jane Smith', '555-0002'),
 (3, 'Bob Johnson', '555-0003'),
@@ -24,7 +24,7 @@ INSERT INTO requesters (organization_id, name, phone) VALUES
 INSERT INTO volunteers (organization_id, name, email, age, points_earned) VALUES
 (1, 'Kurt Julien', 'kjulien@pursuit.org', 25, 100),
 (2, 'Marcus Browne', 'mbrowne@pursuit.org', 30, 150),
-(3, 'Shanel Elms', 'selms@pursuit.org', 22, 120),
+(3, 'Shanel Elm', 'selm@pursuit.org', 22, 120),
 (4, 'Antonio Martinez', 'amartinez@pursuit.org', 28, 90),
 (5, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 20, 351);
 

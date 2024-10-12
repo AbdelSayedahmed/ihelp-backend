@@ -7,10 +7,10 @@ CREATE DATABASE ihelp_db;
 CREATE TABLE addresses (
     id SERIAL PRIMARY KEY,
     street VARCHAR(255) NOT NULL,
+    apt VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255) NOT NULL,
     zip_code VARCHAR(255) NOT NULL,
-    country VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -28,7 +28,8 @@ CREATE TABLE organizations (
 CREATE TABLE requesters (
     id SERIAL PRIMARY KEY,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
