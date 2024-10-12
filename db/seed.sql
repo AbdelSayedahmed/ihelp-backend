@@ -1,11 +1,11 @@
 \c ihelp_db;
 
-INSERT INTO addresses (street, city, state, zip_code, country) VALUES 
-('123 Elm St', 'Los Angeles', 'CA', '90001', 'USA'),
-('456 Oak St', 'New York', 'NY', '10001', 'USA'),
-('789 Pine St', 'Chicago', 'IL', '60601', 'USA'),
-('101 Maple Ave', 'Houston', 'TX', '77001', 'USA'),
-('202 Birch Rd', 'Miami', 'FL', '33101', 'USA');
+INSERT INTO addresses (street, city, state, zip_code, appt, country) VALUES 
+('123 Elm St', 'Los Angeles', 'CA', '90001','12345', 'USA'),
+('456 Oak St', 'New York', 'NY', '10001', '67890','USA'),
+('789 Pine St', 'Chicago', 'IL', '60601','54321', 'USA'),
+('101 Maple Ave', 'Houston', 'TX', '77001','98765', 'USA'),
+('202 Birch Rd', 'Miami', 'FL', '33101', '24680','USA');
 
 INSERT INTO organizations (uid, address_id, phone, name, description) VALUES
 ('squm207iZ2Smf01SxXoUIS5QhDu2', 1, '555-1234', 'Helping Hands', 'A non-profit that helps people in need'),
@@ -14,12 +14,13 @@ INSERT INTO organizations (uid, address_id, phone, name, description) VALUES
 ('EE6o4BMsuQaJXYdJ4qD9FEb9dZz2', 4, '555-1122', 'Reach out volunteers', 'A group dedicated to volunteering for various causes'),
 ('uakdvi5DC4YkL1eyQaQyionZsSi2', 5, '555-3344', 'Hope in act', 'Providing aid to people affected by natural disasters');
 
-INSERT INTO requesters (organization_id, name, phone) VALUES
+INSERT INTO requesters (organization_id, first_name, last_name, phone) VALUES
 (1, 'John Doe', '555-0001'),
 (1, 'Jane Smith', '555-0002'),
 (1, 'Bob Johnson', '555-0003'),
 (1, 'Alice Davis', '555-0004'),
 (1, 'Charlie Brown', '555-0005');
+
 
 INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned) VALUES
 ('OA0fvVp0l8XCwplmtKhjJ6ym7D22', 1, 'Kurt Julien', 'kjulien@pursuit.org', 25, 100),

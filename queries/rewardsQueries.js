@@ -1,5 +1,6 @@
 const db = require("../db/db-config.js");
 
+
 const getAllRewards = async (uid) => {
   try {
     const organization = await db.oneOrNone(
