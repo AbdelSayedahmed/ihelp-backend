@@ -1,11 +1,11 @@
 \c ihelp_db;
 
-INSERT INTO addresses (street, city, state, zip_code, appt, country) VALUES 
-('123 Elm St', 'Los Angeles', 'CA', '90001','12345', 'USA'),
-('456 Oak St', 'New York', 'NY', '10001', '67890','USA'),
-('789 Pine St', 'Chicago', 'IL', '60601','54321', 'USA'),
-('101 Maple Ave', 'Houston', 'TX', '77001','98765', 'USA'),
-('202 Birch Rd', 'Miami', 'FL', '33101', '24680','USA');
+INSERT INTO addresses (street, apt,  city, state, zip_code) VALUES 
+('123 Elm St', '90001', 'Los Angeles', 'CA', '12345'),
+('456 Oak St', '10001', 'New York', 'NY', '67890'),
+('789 Pine St', '60601', 'Chicago', 'IL', '54321'),
+('101 Maple Ave', '77001', 'Houston', 'TX', '98765'),
+('202 Birch Rd', '33101', 'Miami', 'FL', '24680');
 
 INSERT INTO organizations (uid, address_id, phone, name, description) VALUES
 ('squm207iZ2Smf01SxXoUIS5QhDu2', 1, '555-1234', 'Helping Hands', 'A non-profit that helps people in need'),
@@ -15,19 +15,18 @@ INSERT INTO organizations (uid, address_id, phone, name, description) VALUES
 ('uakdvi5DC4YkL1eyQaQyionZsSi2', 5, '555-3344', 'Hope in act', 'Providing aid to people affected by natural disasters');
 
 INSERT INTO requesters (organization_id, first_name, last_name, phone) VALUES
-(1, 'John Doe', '555-0001'),
-(1, 'Jane Smith', '555-0002'),
-(1, 'Bob Johnson', '555-0003'),
-(1, 'Alice Davis', '555-0004'),
-(1, 'Charlie Brown', '555-0005');
-
+(1, 'John', 'Doe', '1235550001'),
+(1, 'Jane', 'Smith', '1235550002'),
+(1, 'Bob', 'Johnson', '1235550003'),
+(1, 'Alice', 'Davis', '1235550004'),
+(1, 'Charlie', 'Brown', '1235550005');
 
 INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned) VALUES
-('OA0fvVp0l8XCwplmtKhjJ6ym7D22', 1, 'Kurt Julien', 'kjulien@pursuit.org', 25, 100),
-('2W4gow7VyWO8PXB4o5vAjKP38JB3', 1, 'Marcus Browne', 'mbrowne@pursuit.org', 30, 150),
-('wk2skOz9KUOXEqi6HJQDRhq5HN62', 1, 'Shanel Elms', 'selms@pursuit.org', 22, 120),
-('bWDLGo3svlbYEDGc2qfXzWnwBdK2', 1, 'Antonio Martinez', 'amartinez@pursuit.org', 28, 90),
-('Yhb4UQWh6VSAf0jYBGVjWv0cEYD3', 1, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 20, 351);
+('OA0fvVp0l8XCwplmtKhjJ6ym7D22', 1, 'Kurt Julien', 'kjulien@pursuit.org', 17, 100),
+('2W4gow7VyWO8PXB4o5vAjKP38JB3', 1, 'Marcus Browne', 'mbrowne@pursuit.org', 16, 150),
+('wk2skOz9KUOXEqi6HJQDRhq5HN62', 1, 'Shanel Elms', 'selms@pursuit.org', 12, 120),
+('bWDLGo3svlbYEDGc2qfXzWnwBdK2', 1, 'Antonio Martinez', 'amartinez@pursuit.org', 15, 90),
+('Yhb4UQWh6VSAf0jYBGVjWv0cEYD3', 1, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 13, 351);
 
 INSERT INTO request_status (name) VALUES 
 ('OPEN'), 
