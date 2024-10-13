@@ -34,16 +34,27 @@ requests.get("/:id", async (req, res) => {
 });
 
 requests.post("/", async (req, res) => {
-  const { title, description } = req.body;
-
-  if (!title || !description)
-    return res.status(400).json({ error: "Missing required fields" });
-
   try {
-    const newRequest = await createRequest(req.body);
-    res.status(201).json(newRequest);
+    const { organization_id } = req.user;
+    const { volunteer, requester, category, description, date, tasks } =
+      req.body;
+
+    const requestId = await createRequest({
+      organization_id,
+      volunteer_id: volunteer,
+      requester_id: requester,
+      category,
+      description,
+      tasks,
+      date,
+    });
+
+    res
+      .status(201)
+      .json({ message: "Request created successfully", requestId });
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    console.error("Error creating request:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
