@@ -90,3 +90,10 @@ INSERT INTO assigned_tasks (request_task_id, volunteer_id, task_progress_id) VAL
 (3, 3, 3),
 (4, 4, 2),
 (5, 5, 1);
+
+INSERT INTO task_status (name) VALUES 
+('OPEN'), 
+('ASSIGNED'), 
+('IN PROGRESS'),
+('COMPLETED'),
+('CANCELLED');
