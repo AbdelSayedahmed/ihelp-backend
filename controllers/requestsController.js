@@ -33,30 +33,7 @@ requests.get("/:id", async (req, res) => {
   }
 });
 
-requests.post("/", async (req, res) => {
-  try {
-    const { organization_id } = req.user;
-    const { volunteer, requester, category, description, date, tasks } =
-      req.body;
-
-    const requestId = await createRequest({
-      organization_id,
-      volunteer_id: volunteer,
-      requester_id: requester,
-      category,
-      description,
-      tasks,
-      date,
-    });
-
-    res
-      .status(201)
-      .json({ message: "Request created successfully", requestId });
-  } catch (error) {
-    console.error("Error creating request:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
+requests.post("/", async (req, res) => {});
 
 requests.put("/:id", async (req, res) => {
   const { id } = req.params;

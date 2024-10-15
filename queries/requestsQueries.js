@@ -103,45 +103,7 @@ const getRequestById = async (id) => {
   }
 };
 
-const createRequest = async ({
-  organization_id,
-  volunteer_id,
-  requester_id,
-  category,
-  description,
-  tasks,
-  date,
-}) => {
-  const client = await db.connect();
-  try {
-    await client.query("BEGIN");
-
-    const requestResult = await client.query(
-      `INSERT INTO requests (organization_id, volunteer_id, requester_id, category, description, created_at, updated_at) 
-       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
-       RETURNING id`,
-      [organization_id, volunteer_id, requester_id, category, description]
-    );
-
-    const requestId = requestResult.rows[0].id;
-
-    for (const task of tasks) {
-      await client.query(
-        `INSERT INTO request_task (organization_id, requester_id, request_id, task, point_earnings, due_date, created_at, updated_at) 
-         VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
-        [organization_id, requester_id, requestId, task.task, task.points, date]
-      );
-    }
-
-    await client.query("COMMIT");
-    return requestId;
-  } catch (error) {
-    await client.query("ROLLBACK");
-    throw error;
-  } finally {
-    client.release();
-  }
-};
+const createRequest = async () => {};
 
 const updateRequest = async (id, request) => {
   const {
