@@ -104,17 +104,18 @@ const getRequestById = async (id) => {
 };
 
 const createRequest = async (uid, requestData) => {
-  const organization_id = await db.oneOrNone(
+  const organization = await db.oneOrNone(
     "SELECT id FROM organizations WHERE uid = $1",
     [uid]
   );
 
-  if (!organization_id) {
+  if (!organization) {
     throw new Error("Organization not found");
   }
 
-  const { category, due_date, description, requester, volunteer, tasks } =
-    requestData;
+  const organization_id = organization.id;
+
+  const { category, due_date, description, requester, volunteer, tasks } = requestData;
 
   try {
     const { id: request_id } = await db.one(
