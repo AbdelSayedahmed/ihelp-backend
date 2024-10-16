@@ -33,7 +33,16 @@ requests.get("/:id", async (req, res) => {
   }
 });
 
-requests.post("/", async (req, res) => {});
+requests.post("/", async (req, res) => {
+  try {
+    const organization_id = req.user.uid;
+    const result = await createRequest(organization_id, req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 requests.put("/:id", async (req, res) => {
   const { id } = req.params;
