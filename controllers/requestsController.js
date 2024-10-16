@@ -35,8 +35,8 @@ requests.get("/:id", async (req, res) => {
 
 requests.post("/", async (req, res) => {
   try {
-    const organization_id = req.user.uid;
-    const result = await createRequest(organization_id, req.body);
+    const uid = req.user.uid
+    const result = await createRequest(uid, req.body);
     res.status(201).json(result);
   } catch (error) {
     console.error(error);

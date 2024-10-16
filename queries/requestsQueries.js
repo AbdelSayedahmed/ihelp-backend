@@ -104,26 +104,27 @@ const getRequestById = async (id) => {
 };
 
 const createRequest = async (uid, requestData) => {
-  const organization = await db.oneOrNone(
+  const organization_id = await db.oneOrNone(
     "SELECT id FROM organizations WHERE uid = $1",
     [uid]
   );
 
-  if (!organization) throw new Error("Organization not found");
+  if (!organization_id) {
+    throw new Error("Organization not found");
+  }
 
-  const { category, due_date, description, requester, volunteer, tasks } = requestData;
+  const { category, due_date, description, requester, volunteer, tasks } =
+    requestData;
 
   try {
-    const newRequest = await db.one(
+    const { id: request_id } = await db.one(
       `INSERT INTO requests 
         (organization_id, requester_id, volunteer_id, status_id, description, category, created_at, updated_at) 
       VALUES 
         ($1, $2, $3, $4, $5, $6, NOW(), NOW()) 
       RETURNING id`,
-      [organization, requester, volunteer || null, 1, description, category]
+      [organization_id, requester, volunteer || null, 1, description, category]
     );
-
-    const request_id = newRequest.id;
 
     const taskPromises = tasks.map((task) =>
       db.one(
@@ -134,7 +135,7 @@ const createRequest = async (uid, requestData) => {
         RETURNING id`,
         [
           requester,
-          organization,
+          organization_id,
           request_id,
           parseInt(task.points, 10),
           task.task,
@@ -145,7 +146,7 @@ const createRequest = async (uid, requestData) => {
 
     const insertedTasks = await Promise.all(taskPromises);
 
-    return { request: newRequest, tasks: insertedTasks };
+    return { request_id, tasks: insertedTasks };
   } catch (error) {
     throw new Error(`Failed to create request: ${error.message}`);
   }
