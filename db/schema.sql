@@ -14,6 +14,10 @@ CREATE TABLE addresses (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE avatars (
+    id SERIAL PRIMARY KEY,
+    url TEXT
+);
 
 CREATE TABLE organizations (
     uid VARCHAR(255) NOT NULL,
@@ -40,6 +44,7 @@ CREATE TABLE requesters (
 CREATE TABLE volunteers (
     uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
+    avatar_id INT REFERENCES avatars (id) ON DELETE CASCADE,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,

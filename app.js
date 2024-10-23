@@ -33,7 +33,7 @@ app.get("/", (req, res) => res.send("Welcome to iHelp"));
 app.use("/badges", badgesController);
 app.use("/organizations", verifyToken, organizationsController);
 app.use("/requesters", verifyToken, requestersController);
-app.use("/requests", verifyToken, requestsController);
+app.use("/requests", requestsController);
 app.use("/tasks", verifyToken, requestTasksController);
 app.use("/rewards", verifyToken, rewardsController);
 app.use("/statuses", verifyToken, statusesController);
