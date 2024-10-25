@@ -2,6 +2,7 @@ const express = require("express");
 const requests = express.Router();
 const {
   getAllRequests,
+  getOpenRequests,
   getRequestById,
   createRequest,
   updateRequest,
@@ -17,6 +18,23 @@ requests.get("/", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+
+//volunteers
+requests.get("/open-requests", async (req, res) => {
+  try {
+    const uid = req.user.uid;
+    const openRequests = await getOpenRequests(uid);
+    res.status(200).json(openRequests);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+
+
+
 
 requests.get("/:id", async (req, res) => {
   const { id } = req.params;

@@ -48,12 +48,44 @@ INSERT INTO organizations (uid, address_id, phone, name, description) VALUES
 ('EE6o4BMsuQaJXYdJ4qD9FEb9dZz2', 4, '1234567890', 'Reach out volunteers', 'A group dedicated to volunteering for various causes'),
 ('uakdvi5DC4YkL1eyQaQyionZsSi2', 5, '1234567890', 'Hope in act', 'Providing aid to people affected by natural disasters');
 
+
+INSERT INTO categories (name) VALUES
+('Various'),
+('Errands'),
+('Technology'),
+('Cleaning'),
+('Pet Care'),
+('Gardening'),
+('Tutoring'),
+('Meal Prep'),
+('Event Setup'),
+('Delivery'),
+('Sports Coaching'),
+('Crafts'),
+('Office Assistance');
+
+
 INSERT INTO requesters (organization_id, first_name, last_name, phone) VALUES
 (1, 'John', 'Doe', '1235550001'),
 (1, 'Jane', 'Smith', '1235550002'),
 (1, 'Bob', 'Johnson', '1235550003'),
 (1, 'Alice', 'Davis', '1235550004'),
 (1, 'Charlie', 'Brown', '1235550005');
+
+
+INSERT INTO requesters (organization_id, first_name, last_name, phone) VALUES
+(1, 'John', 'Hart', '1235550001'),
+(1, 'Jane', 'Smith', '1235550002'),
+(1, 'Bob', 'Johnson', '1235550003'),
+(1, 'Alice', 'Davis', '1235550004'),
+(1, 'Charlie', 'Brown', '1235550005'),
+(1, 'Emily', 'Clark', '1235550006'),  
+(1, 'Tom', 'Harris', '1235550007'),
+(1, 'Rebecca', 'Lewis', '1235550008'),
+(1, 'Daniel', 'Walker', '1235550009'),
+(1, 'Sophie', 'Hall', '1235550010');
+
+
 
 INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned, avatar_id) VALUES
 ('OA0fvVp0l8XCwplmtKhjJ6ym7D22', 1, 'Kurt Julien', 'kjulien@pursuit.org', 17, 100,1),
@@ -65,22 +97,52 @@ INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned, a
 INSERT INTO request_status (name) VALUES 
 ('OPEN'), 
 ('ASSIGNED'), 
-('COMPLETE');
-
-INSERT INTO requests (organization_id, volunteer_id, requester_id, status_id, description, category) VALUES
-(1, 1, 1, 1, 'Help with grocery shopping', 'CHORES'),
-(1, 2, 2, 1, 'Assistance with home cleaning', 'CHORES'),
-(1, 3, 3, 2, 'Need a ride to the doctor', 'TRANSPORTATION'),
-(1, 4, 4, 3, 'Help moving furniture', 'CHORES'),
-(1, 5, 5, 2, 'Deliver meals to elderly neighbors', 'TRANSPORTATION');
+('IN PROGRESS'), 
+('COMPLETE'),
+('CANCELED');
 
 
-INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date) VALUES
-(1, 1, 1, 50, 'Complete survey', '2024-09-30'),
-(2, 1, 2, 30, 'Attend meeting', '2024-10-01'),
-(3, 1, 3, 40, 'Submit report', '2024-10-02'),
-(4, 1, 4, 60, 'Provide feedback', '2024-10-03'),
-(5, 1, 5, 35, 'Update documentation', '2024-10-04');
+
+
+
+INSERT INTO requests (organization_id, requester_id, status_id, description, category_id)
+VALUES
+(1, 1, 1, 'Help with various community activities.', 1),
+(1, 2, 1, 'Run errands for elderly neighbors.', 2),
+(1, 3, 1, 'Assist with tech setup for events.', 3),
+(1, 4, 1, 'Help clean community park and area.', 4),
+(1, 5, 1, 'Walk dogs and pet care for neighbors.', 5),
+(1, 6, 1, 'Assist in planting flowers and plants.', 6),
+(1, 7, 1, 'Tutoring younger kids in math and reading.', 7),
+(1, 8, 1, 'Prepare meals for families in need.', 8),
+(1, 9, 1, 'Help set up for school events.', 9),
+(1, 10, 1, 'Deliver groceries to local families.', 10),
+(1, 11, 1, 'Coach kids in sports activities.', 11),
+(1, 12, 1, 'Assist with arts and crafts activities.', 12),
+(1, 13, 1, 'Provide office assistance for events.', 13);
+
+
+
+INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date)
+VALUES
+(1, 1, 1, 5, 'Organize community clean-up.', '2024-11-01'),
+(1, 1, 1, 5, 'Collect supplies for activities.', '2024-11-01'),
+(2, 1, 2, 3, 'Pick up groceries for neighbor.', '2024-11-05'),
+(2, 1, 2, 3, 'Deliver prescriptions.', '2024-11-05'),
+(2, 1, 2, 3, 'Run errands to local stores.', '2024-11-05'),
+(3, 1, 3, 4, 'Set up computers for classes.', '2024-11-10'),
+(4, 1, 4, 5, 'Sweep and pick up trash.', '2024-11-02'),
+(5, 1, 5, 2, 'Walk dogs for 30 minutes.', '2024-11-03'),
+(6, 1, 6, 5, 'Plant flowers in community garden.', '2024-11-15'),
+(7, 1, 7, 5, 'Tutor students in math.', '2024-11-12'),
+(8, 1, 8, 5, 'Prepare 10 meals for families.', '2024-11-20'),
+(9, 1, 9, 4, 'Help set up tables and chairs.', '2024-11-11'),
+(10, 1, 10, 3, 'Deliver meals to families.', '2024-11-14'),
+(11, 1, 11, 5, 'Coach soccer for 1 hour.', '2024-11-16'),
+(12, 1, 12, 4, 'Help kids with painting.', '2024-11-17'),
+(13, 1, 13, 5, 'File documents and organize.', '2024-11-18'),
+(1, 1, 1, 5, 'Collect donations for local shelter.', '2024-11-19');
+
 
 
 INSERT INTO rewards (name, description, organization_id, points_required) VALUES
