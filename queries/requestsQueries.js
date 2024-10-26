@@ -20,8 +20,6 @@ const getAllRequests = async (uid) => {
       SELECT 
         requests.id,
         requests.organization_id,
-        requests.volunteer_id,
-        volunteers.name AS volunteer_name,
         requests.requester_id,
         requesters.first_name AS requester_first_name,
         requesters.last_name AS requester_last_name,
@@ -31,7 +29,6 @@ const getAllRequests = async (uid) => {
         requests.created_at,
         requests.updated_at
       FROM requests
-      LEFT JOIN volunteers ON requests.volunteer_id = volunteers.id
       LEFT JOIN requesters ON requests.requester_id = requesters.id
       LEFT JOIN request_status ON requests.status_id = request_status.id
       WHERE requests.organization_id = $1
@@ -41,10 +38,10 @@ const getAllRequests = async (uid) => {
 
 		return allRequests;
 	} catch (error) {
-		console.error("Error fetching requests:", error);
-		throw new Error("Server error");
+		throw error;
 	}
 };
+const getOpenRequests = async () => {};
 
 const getRequestById = async (id) => {
 	try {

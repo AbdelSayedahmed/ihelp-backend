@@ -8,7 +8,7 @@ INSERT INTO addresses (street, apt,  city, state, zip_code) VALUES
 ('202 Birch Rd', '33101', 'Miami', 'FL', '24680');
 
 
-INSERT INTO avatars (url) VALUES
+INSERT INTO avatars (img_url) VALUES
 ('https://icons.iconarchive.com/icons/iconarchive/robot-avatar/512/Pink-1-Robot-Avatar-icon.png'),
 ('https://icons.iconarchive.com/icons/iconarchive/robot-avatar/512/Green-1-Robot-Avatar-icon.png'),
 ('https://icons.iconarchive.com/icons/iconarchive/robot-avatar/512/Golden-4-Robot-Avatar-icon.png'),
@@ -125,23 +125,23 @@ VALUES
 
 INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date)
 VALUES
-(1, 1, 1, 5, 'Organize community clean-up.', '2024-11-01'),
-(1, 1, 1, 5, 'Collect supplies for activities.', '2024-11-01'),
-(2, 1, 2, 3, 'Pick up groceries for neighbor.', '2024-11-05'),
-(2, 1, 2, 3, 'Deliver prescriptions.', '2024-11-05'),
-(2, 1, 2, 3, 'Run errands to local stores.', '2024-11-05'),
-(3, 1, 3, 4, 'Set up computers for classes.', '2024-11-10'),
-(4, 1, 4, 5, 'Sweep and pick up trash.', '2024-11-02'),
-(5, 1, 5, 2, 'Walk dogs for 30 minutes.', '2024-11-03'),
-(6, 1, 6, 5, 'Plant flowers in community garden.', '2024-11-15'),
-(7, 1, 7, 5, 'Tutor students in math.', '2024-11-12'),
-(8, 1, 8, 5, 'Prepare 10 meals for families.', '2024-11-20'),
-(9, 1, 9, 4, 'Help set up tables and chairs.', '2024-11-11'),
-(10, 1, 10, 3, 'Deliver meals to families.', '2024-11-14'),
-(11, 1, 11, 5, 'Coach soccer for 1 hour.', '2024-11-16'),
-(12, 1, 12, 4, 'Help kids with painting.', '2024-11-17'),
-(13, 1, 13, 5, 'File documents and organize.', '2024-11-18'),
-(1, 1, 1, 5, 'Collect donations for local shelter.', '2024-11-19');
+(1, 1, 1, 25, 'Organize community clean-up.', '2024-11-01'),
+(1, 1, 1, 15, 'Collect supplies for activities.', '2024-11-01'),
+(2, 1, 2, 30, 'Pick up groceries for neighbor.', '2024-11-05'),
+(2, 1, 2, 30, 'Deliver prescriptions.', '2024-11-05'),
+(2, 1, 2, 30, 'Run errands to local stores.', '2024-11-05'),
+(3, 1, 3, 40, 'Set up computers for classes.', '2024-11-10'),
+(4, 1, 4, 15, 'Sweep and pick up trash.', '2024-11-02'),
+(5, 1, 5, 25, 'Walk dogs for 30 minutes.', '2024-11-03'),
+(6, 1, 6, 25, 'Plant flowers in community garden.', '2024-11-15'),
+(7, 1, 7, 25, 'Tutor students in math.', '2024-11-12'),
+(8, 1, 8, 25, 'Prepare 10 meals for families.', '2024-11-20'),
+(9, 1, 9, 40, 'Help set up tables and chairs.', '2024-11-11'),
+(10, 1, 10, 30, 'Deliver meals to families.', '2024-11-14'),
+(11, 1, 11, 50, 'Coach soccer for 1 hour.', '2024-11-16'),
+(12, 1, 12, 40, 'Help kids with painting.', '2024-11-17'),
+(13, 1, 13, 50, 'File documents and organize.', '2024-11-18'),
+(1, 1, 1, 50, 'Collect donations for local shelter.', '2024-11-19');
 
 
 
@@ -150,7 +150,29 @@ INSERT INTO rewards (name, description, organization_id, points_required) VALUES
 ('Gift Card', 'A $20 gift card', 1, 200),
 ('Backpack', 'A sturdy backpack for volunteers', 1, 150),
 ('Water Bottle', 'Reusable water bottle', 1, 50),
-('Hat', 'A branded volunteer hat', 1, 75);
+('Hat', 'A branded volunteer hat', 1, 75),
+('Book Voucher', 'A $15 voucher for books', 1, 80),
+('Coffee Mug', 'A volunteer-themed coffee mug', 1, 40),
+('Bike', 'A brand new volunteer bike', 1, 1000),
+('Gift Card', 'A $50 restaurant gift card', 1, 250),
+('Movie Tickets', 'Two movie tickets', 1, 120),
+('Hoodie', 'A cozy branded hoodie', 1, 180),
+('Notebook', 'A high-quality notebook', 1, 30),
+('Headphones', 'Wireless headphones', 1, 300),
+('Fitness Tracker', 'Track your fitness activities', 1, 400),
+('Portable Charger', 'A portable USB charger', 1, 90),
+('Gift Card', 'A $100 retail gift card', 1, 500),
+('Bluetooth Speaker', 'Portable Bluetooth speaker', 1, 250),
+('Reusable Bag', 'An eco-friendly tote bag', 1, 60),
+('Travel Mug', 'Insulated travel mug', 1, 70),
+('Kindle', 'An e-reader device', 1, 600),
+('Yoga Mat', 'Eco-friendly yoga mat', 1, 110),
+('Cooking Class', 'Voucher for a cooking class', 1, 180),
+('Puzzle Game', 'A fun puzzle game', 1, 50),
+('Camping Set', 'Basic camping equipment', 1, 450),
+('Donation', 'Donate to a charity of choice', 1, 100),
+('Volunteer Badge', 'Special edition volunteer badge', 1, 200);
+
 
 INSERT INTO rewards_earned (reward_id, volunteer_id) VALUES
 (1, 1),

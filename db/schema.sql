@@ -16,7 +16,7 @@ CREATE TABLE addresses (
 );
 CREATE TABLE avatars (
     id SERIAL PRIMARY KEY,
-    url TEXT
+    img_url TEXT
 );
 
 CREATE TABLE organizations (

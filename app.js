@@ -18,11 +18,11 @@ const app = express();
 
 // Middleware
 app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
-    allowedHeaders: ["Authorization", "Content-Type"],
-  })
+	cors({
+		origin: "*",
+		methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+		allowedHeaders: ["Authorization", "Content-Type"],
+	})
 );
 app.use(express.json());
 
@@ -32,12 +32,12 @@ app.get("/", (req, res) => res.send("Welcome to iHelp"));
 // Routes
 app.use("/badges", badgesController);
 app.use("/organizations", verifyToken, organizationsController);
-app.use("/requesters", verifyToken, requestersController);
+app.use("/requesters", requestersController);
 app.use("/requests", requestsController);
-app.use("/tasks", verifyToken, requestTasksController);
+app.use("/tasks", requestTasksController);
 app.use("/rewards", verifyToken, rewardsController);
 app.use("/statuses", verifyToken, statusesController);
-app.use("/volunteers", verifyToken, volunteersController);
+app.use("/volunteers", volunteersController);
 
 // 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));
