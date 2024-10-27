@@ -21,6 +21,8 @@ const getAllRequests = async (uid) => {
 			requests.id,
 			requests.organization_id,
 			requests.requester_id,
+			categories.id AS category_id,
+			categories.name AS category_name,
 			requesters.first_name AS requester_first_name,
 			requesters.last_name AS requester_last_name,
 			requests.status_id,
@@ -31,10 +33,11 @@ const getAllRequests = async (uid) => {
 			requests.created_at,
 			requests.updated_at
 	FROM requests
+	LEFT JOIN categories ON requests.category_id = categories.id
 	LEFT JOIN requesters ON requests.requester_id = requesters.id
 	LEFT JOIN request_status ON requests.status_id = request_status.id
 	LEFT JOIN request_task ON requests.id = request_task.request_id     
-	LEFT JOIN assigned_tasks ON request_task.id = assigned_tasks.request_task_id -- Fixed: changed 'request.id' to 'request_task.id'
+	LEFT JOIN assigned_tasks ON request_task.id = assigned_tasks.request_task_id
 	WHERE requests.organization_id = $1
 	GROUP BY 
 			requests.id,
@@ -45,6 +48,7 @@ const getAllRequests = async (uid) => {
 			requests.status_id,
 			request_status.name,
 			requests.description,
+			categories.id,
 			requests.created_at,
 			requests.updated_at;
 	
@@ -127,17 +131,24 @@ const createRequest = async (uid, requestData) => {
 
 	const organization_id = organization.id;
 
-	const { category, due_date, description, requester, volunteer, tasks } =
+	const { category_id, due_date, description, requester, volunteer, tasks } =
 		requestData;
 
 	try {
 		const { id: request_id } = await db.one(
 			`INSERT INTO requests 
-        (organization_id, requester_id, status_id, description, category, created_at, updated_at) 
+        (organization_id, requester_id, status_id, description, category_id, created_at, updated_at) 
       VALUES 
         ($1, $2, $3, $4, $5, $6, NOW(), NOW()) 
       RETURNING id`,
-			[organization_id, requester, volunteer || null, 1, description, category]
+			[
+				organization_id,
+				requester,
+				volunteer || null,
+				1,
+				description,
+				category_id,
+			]
 		);
 
 		const taskPromises = tasks.map((task) =>

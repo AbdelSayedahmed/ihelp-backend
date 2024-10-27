@@ -77,8 +77,8 @@ CREATE TABLE requests (
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
     status_id INT REFERENCES request_status (id) ON DELETE CASCADE,
+    category_id INT REFERENCES categories (id) ON DELETE CASCADE,
     description TEXT NOT NULL,
-    category VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
