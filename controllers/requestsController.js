@@ -33,7 +33,6 @@ requests.get("/open", async (req, res) => {
 
 requests.get("/:id", async (req, res) => {
 	const { id } = req.params;
-	const { id } = req.params;
 
 	try {
 		const request = await getRequestById(id);
@@ -89,7 +88,6 @@ requests.put("/:id", async (req, res) => {
 });
 
 requests.delete("/:id", async (req, res) => {
-	const { id } = req.params;
 	const { id } = req.params;
 
 	try {
