@@ -99,20 +99,19 @@ INSERT INTO categories (name) VALUES
 ('Crafts'),
 ('Office Assistance');
 
-
-INSERT INTO requests (organization_id, requester_id, status_id, description, category) VALUES
-(1, 1, 1, 'Help with grocery shopping', 'Cleaning'),
-(1, 2, 1, 'Assistance with home cleaning', 'Cleaning'),
-(1, 3, 2, 'Need a ride to the doctor', 'Errands'),
-(1, 4, 3, 'Help moving furniture', 'Cleaning'),
-(1, 5, 2, 'Deliver meals to elderly neighbors', 'Errands'),
-(1, 6, 1, 'Help set up a new computer', 'Technology'),
-(1, 7, 1, 'Prepare meals for the week', 'Meal Prep'),
-(1, 8, 2, 'Walk dogs for local residents', 'Pets'),
-(1, 9, 2, 'Assist with event setup', 'Various'),
-(1, 10, 3, 'Clean up the community park', 'Gardening'),
-(1, 11, 1, 'Help with office tasks', 'Office Assistance'),
-(1, 12, 2, 'Prepare for sports coaching', 'Sports Coaching');
+INSERT INTO requests (organization_id, requester_id, status_id, description, category_id) VALUES
+(1, 1, 1, 'Help with grocery shopping', 4),
+(1, 2, 1, 'Assistance with home cleaning', 4),
+(1, 3, 2, 'Need a ride to the doctor', 2),
+(1, 4, 3, 'Help moving furniture', 4),
+(1, 5, 2, 'Deliver meals to elderly neighbors', 2),
+(1, 6, 1, 'Help set up a new computer', 3),
+(1, 7, 1, 'Prepare meals for the week', 8),
+(1, 8, 2, 'Walk dogs for local residents', 5),
+(1, 9, 2, 'Assist with event setup', 1),
+(1, 10, 3, 'Clean up the community park', 6),
+(1, 11, 1, 'Help with office tasks', 13),
+(1, 12, 2, 'Prepare for sports coaching', 11);
 
 
 INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date) VALUES
