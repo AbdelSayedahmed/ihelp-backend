@@ -99,19 +99,19 @@ INSERT INTO categories (name) VALUES
 ('Crafts'),
 ('Office Assistance');
 
-INSERT INTO requests (organization_id, requester_id, status_id, description, category_id) VALUES
-(1, 1, 1, 'Help with grocery shopping', 4),
-(1, 2, 1, 'Assistance with home cleaning', 4),
-(1, 3, 2, 'Need a ride to the doctor', 2),
-(1, 4, 3, 'Help moving furniture', 4),
-(1, 5, 2, 'Deliver meals to elderly neighbors', 2),
-(1, 6, 1, 'Help set up a new computer', 3),
-(1, 7, 1, 'Prepare meals for the week', 8),
-(1, 8, 2, 'Walk dogs for local residents', 5),
-(1, 9, 2, 'Assist with event setup', 1),
-(1, 10, 3, 'Clean up the community park', 6),
-(1, 11, 1, 'Help with office tasks', 13),
-(1, 12, 2, 'Prepare for sports coaching', 11);
+INSERT INTO requests (organization_id, requester_id, status_id, description,hours_needed,due_date, category_id) VALUES
+(1, 1, 1, 'Help with grocery shopping', 2, '2024-11-01',4),
+(1, 2, 1, 'Assistance with home cleaning',3, '2024-11-02', 4),
+(1, 3, 2, 'Need a ride to the doctor',1, '2024-11-02', 2),
+(1, 4, 3, 'Help moving furniture',3, '2024-11-04',4),
+(1, 5, 2, 'Deliver meals to elderly neighbors',3, '2024-11-07',2),
+(1, 6, 1, 'Help set up a new computer',1, '2024-11-09', 3),
+(1, 7, 1, 'Prepare meals for the week', 3, '2024-11-02',8),
+(1, 8, 2, 'Walk dogs for local residents', 3, '2024-11-10',5),
+(1, 9, 2, 'Assist with event setup', 1, '2024-11-02',1),
+(1, 10, 3, 'Clean up the community park',2, '2024-11-06', 6),
+(1, 11, 1, 'Help with office tasks', 3, '2024-11-06',13),
+(1, 12, 2, 'Prepare for sports coaching', 3, '2024-11-04',11);
 
 
 INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date) VALUES
