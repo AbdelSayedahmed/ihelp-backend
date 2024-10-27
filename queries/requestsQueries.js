@@ -17,29 +17,44 @@ const getAllRequests = async (uid) => {
 
 		const allRequests = await db.any(
 			`
-      SELECT 
-        requests.id,
-        requests.organization_id,
-        requests.requester_id,
-        requesters.first_name AS requester_first_name,
-        requesters.last_name AS requester_last_name,
-        requests.status_id,
-        request_status.name AS status_name,
-        requests.description,
-        requests.created_at,
-        requests.updated_at
-      FROM requests
-      LEFT JOIN requesters ON requests.requester_id = requesters.id
-      LEFT JOIN request_status ON requests.status_id = request_status.id
-      WHERE requests.organization_id = $1
+			SELECT 
+			requests.id,
+			requests.organization_id,
+			requests.requester_id,
+			requesters.first_name AS requester_first_name,
+			requesters.last_name AS requester_last_name,
+			requests.status_id,
+			request_status.name AS status_name,
+			requests.description,
+			COUNT(DISTINCT request_task.id) AS total_tasks,        
+			COUNT(DISTINCT assigned_tasks.id) AS assigned_tasks,
+			requests.created_at,
+			requests.updated_at
+	FROM requests
+	LEFT JOIN requesters ON requests.requester_id = requesters.id
+	LEFT JOIN request_status ON requests.status_id = request_status.id
+	LEFT JOIN request_task ON requests.id = request_task.request_id     
+	LEFT JOIN assigned_tasks ON request_task.id = assigned_tasks.request_task_id -- Fixed: changed 'request.id' to 'request_task.id'
+	WHERE requests.organization_id = $1
+	GROUP BY 
+			requests.id,
+			requests.organization_id,
+			requests.requester_id,
+			requesters.first_name,
+			requesters.last_name,
+			requests.status_id,
+			request_status.name,
+			requests.description,
+			requests.created_at,
+			requests.updated_at;
+	
       `,
 			[organization.id]
 		);
 
 		return allRequests;
 	} catch (error) {
-		console.error("Error fetching requests:", error);
-		throw new Error("Server error");
+		throw error;
 	}
 };
 
