@@ -66,6 +66,21 @@ INSERT INTO request_status (name) VALUES
 ('ASSIGNED'), 
 ('COMPLETE');
 
+INSERT INTO categories (name) VALUES
+('Various'),
+('Errands'),
+('Technology'),
+('Cleaning'),
+('Pet Care'),
+('Gardening'),
+('Tutoring'),
+('Meal Prep'),
+('Event Setup'),
+('Delivery'),
+('Sports Coaching'),
+('Crafts'),
+('Office Assistance');
+
 INSERT INTO requests (organization_id, volunteer_id, requester_id, status_id, description, category) VALUES
 (1, 1, 1, 1, 'Help with grocery shopping', 'Cleaning'),
 (1, 2, 2, 1, 'Assistance with home cleaning', 'Cleaning'),
