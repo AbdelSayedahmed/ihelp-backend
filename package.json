@@ -1,0 +1,19 @@
+{
+  "name": "ihelp-backend",
+  "version": "1.0.0",
+  "description": "Backend repository for iHelp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "psql -U postgres -f db/schema.sql && psql -U postgres -f db/seed.sql"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.5.0",
+    "pg-promise": "^11.9.1"
+  }
+}
