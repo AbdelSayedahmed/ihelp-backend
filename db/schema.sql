@@ -36,11 +36,17 @@ CREATE TABLE requesters (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
+CREATE TABLE avatars (
+    id SERIAL PRIMARY KEY,
+    img_url VARCHAR(255) NOT NULL
+);
+
 
 CREATE TABLE volunteers (
     uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    avatar_id INT REFERENCES avatars (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     age INT NOT NULL,

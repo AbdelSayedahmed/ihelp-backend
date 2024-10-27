@@ -12,17 +12,18 @@ const requestTasksController = require("./controllers/requestTasksController");
 const rewardsController = require("./controllers/rewardsController");
 const statusesController = require("./controllers/statusesController");
 const volunteersController = require("./controllers/volunteersController");
+const volunteerWebappController = require("./controllers/volunteerWebappController");
 
 // Configuration
 const app = express();
 
 // Middleware
 app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
-    allowedHeaders: ["Authorization", "Content-Type"],
-  })
+	cors({
+		origin: "*",
+		methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+		allowedHeaders: ["Authorization", "Content-Type"],
+	})
 );
 app.use(express.json());
 
@@ -38,6 +39,7 @@ app.use("/tasks", verifyToken, requestTasksController);
 app.use("/rewards", verifyToken, rewardsController);
 app.use("/statuses", verifyToken, statusesController);
 app.use("/volunteers", verifyToken, volunteersController);
+app.use("/volunteers-webapp", volunteerWebappController);
 
 // 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));
