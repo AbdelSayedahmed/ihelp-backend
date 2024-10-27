@@ -36,20 +36,13 @@ CREATE TABLE requesters (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
+
 CREATE TABLE avatars (
     id SERIAL PRIMARY KEY,
-    img_url VARCHAR(255) NOT NULL
+    img_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE categories (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
 CREATE TABLE volunteers (
     uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
@@ -64,7 +57,15 @@ CREATE TABLE volunteers (
     is_active BOOLEAN DEFAULT TRUE
 );
 
+
 CREATE TABLE request_status (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -74,7 +75,6 @@ CREATE TABLE request_status (
 CREATE TABLE requests (
     id SERIAL PRIMARY KEY,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
-    volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
     requester_id INT REFERENCES requesters (id) ON DELETE CASCADE,
     status_id INT REFERENCES request_status (id) ON DELETE CASCADE,
     description TEXT NOT NULL,
