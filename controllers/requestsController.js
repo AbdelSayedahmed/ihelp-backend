@@ -39,8 +39,7 @@ requests.post("/", async (req, res) => {
 		const result = await createRequest(uid, req.body);
 		res.status(201).json(result);
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Server error" });
+		res.status(500).json({ error, message: error.message});
 	}
 });
 
