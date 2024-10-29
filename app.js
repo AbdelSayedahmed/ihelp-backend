@@ -12,6 +12,7 @@ const requestTasksController = require("./controllers/requestTasksController");
 const rewardsController = require("./controllers/rewardsController");
 const statusesController = require("./controllers/statusesController");
 const volunteersController = require("./controllers/volunteersController");
+const categoriesController = require("./controllers/categoriesController");
 const volunteerWebappController = require("./controllers/volunteerWebappController");
 
 // Configuration
@@ -40,6 +41,7 @@ app.use("/rewards", verifyToken, rewardsController);
 app.use("/statuses", verifyToken, statusesController);
 app.use("/volunteers", verifyToken, volunteersController);
 app.use("/volunteers-webapp", volunteerWebappController);
+app.use("/categories", categoriesController);
 
 // 404 Page
 app.get("*", (req, res) => res.status(404).send("Page not found"));
