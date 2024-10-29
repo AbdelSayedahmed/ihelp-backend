@@ -145,20 +145,21 @@ const createRequest = async (uid, requestData) => {
   
 	const organization_id = organization.id;
   
-	const { category, due_date, description, requester, tasks } = requestData;
+	const { category, due_date, description, hours_needed, requester, tasks } = requestData;
   
 	try {
 	  const { id: request_id } = await db.one(
 		`INSERT INTO requests 
-		(organization_id, requester_id, status_id, description, category_id, created_at, updated_at) 
+		(organization_id, requester_id, status_id, description, hours_needed, category_id, created_at, updated_at) 
 		VALUES 
-		($1, $2, $3, $4, $5, NOW(), NOW()) 
+		($1, $2, $3, $4, $5, $6, NOW(), NOW()) 
 		RETURNING id`,
 		[
 		  organization_id,
 		  requester,
 		  1,
 		  description,
+		  hours_needed,
 		  category,
 		]
 	  );
