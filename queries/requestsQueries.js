@@ -63,55 +63,73 @@ const getAllRequests = async (uid) => {
 };
 
 const getRequestById = async (id) => {
-	console.log("id:", id);
 	try {
-		const request = await db.one("SELECT * FROM requests WHERE id=$1", id);
-		const request_task = await db.one(
-			"SELECT * FROM request_task WHERE id=$1",
-			id
+		const requestWithTasks = await db.oneOrNone(
+			`
+			SELECT 
+				requests.id,
+				requests.organization_id,
+				requests.requester_id,
+				categories.id AS category_id,
+				categories.name AS category_name,
+				requesters.first_name AS requester_first_name,
+				requesters.last_name AS requester_last_name,
+				requesters.phone AS requester_phone,
+				requests.status_id,
+				request_status.name AS status_name,
+				requests.description,
+				COUNT(DISTINCT request_task.id) AS total_tasks,
+				COUNT(DISTINCT assigned_tasks.id) AS assigned_tasks,
+				requests.created_at,
+				requests.updated_at,
+				json_agg(
+					json_build_object(
+						'id', request_task.id,
+						'description', request_task.task,
+						'due_date', request_task.due_date,
+						'points_earned', request_task.point_earnings,
+						'volunteer_id', volunteers.id,
+						'volunteer_name', volunteers.name,
+						'volunteer_email', volunteers.email,
+						'task_progress', task_progress.name
+					)
+				) AS tasks
+			FROM requests
+			LEFT JOIN categories ON requests.category_id = categories.id
+			LEFT JOIN requesters ON requests.requester_id = requesters.id
+			LEFT JOIN request_status ON requests.status_id = request_status.id
+			LEFT JOIN request_task ON requests.id = request_task.request_id     
+			LEFT JOIN assigned_tasks ON request_task.id = assigned_tasks.request_task_id
+			LEFT JOIN volunteers ON assigned_tasks.volunteer_id = volunteers.id
+			LEFT JOIN task_progress ON assigned_tasks.task_progress_id = task_progress.id
+			WHERE requests.id = $1
+			GROUP BY 
+				requests.id,
+				requests.organization_id,
+				requests.requester_id,
+				requesters.first_name,
+				requesters.last_name,
+				requesters.phone,
+				requests.status_id,
+				request_status.name,
+				requests.description,
+				categories.id,
+				requests.created_at,
+				requests.updated_at
+			`,
+			[id]
 		);
 
-		const requester = await getRequesterById(request.requester_id);
-		const status = await getStatusById(request.status_id);
-		const requestTask = await getRequestTaskById(request_task.request_id);
+		if (!requestWithTasks) {
+			throw new Error("Request not found");
+		}
 
-		const results = {
-			id: request.id,
-			description: request.description,
-			created_at: request.created_at,
-			updated_at: request.updated_at,
-			requester: {
-				id: requester.id,
-				first_name: requester.first_name,
-				last_name: requester.last_name,
-				phone: requester.phone,
-			},
-			status: {
-				id: status.id,
-				name: status.name,
-			},
-			tasks: [
-				{
-					id: requestTask.id,
-					description: requestTask.description,
-					due_date: requestTask.due_date,
-					points_earned: requestTask.points_earned,
-					assigned_volunteers: [
-						{
-							id: volunteer.id,
-							name: volunteer.name,
-							email: volunteer.email,
-						},
-					],
-					task_progress: [{}],
-				},
-			],
-		};
-		return results;
+		return requestWithTasks;
 	} catch (error) {
 		throw error;
 	}
 };
+
 
 const createRequest = async (uid, requestData) => {
 	const organization = await db.oneOrNone(
