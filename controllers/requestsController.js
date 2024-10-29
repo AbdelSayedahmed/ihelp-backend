@@ -26,10 +26,10 @@ requests.get("/:id", async (req, res) => {
 		if (request) {
 			res.status(200).json(request);
 		} else {
-			res.status(404).json({ error: "Request not found" });
+			res.status(404).json({ error, message: error.message });
 		}
 	} catch (error) {
-		res.status(500).json({ error: "Server error" });
+		res.status(500).json({ error, message: error.message});
 	}
 });
 

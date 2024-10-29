@@ -63,6 +63,7 @@ const getAllRequests = async (uid) => {
 };
 
 const getRequestById = async (id) => {
+	console.log("id:", id);
 	try {
 		const request = await db.one("SELECT * FROM requests WHERE id=$1", id);
 		const request_task = await db.one(
@@ -70,7 +71,6 @@ const getRequestById = async (id) => {
 			id
 		);
 
-		const volunteer = await getVolunteerById(request.volunteer_id);
 		const requester = await getRequesterById(request.requester_id);
 		const status = await getStatusById(request.status_id);
 		const requestTask = await getRequestTaskById(request_task.request_id);
@@ -80,23 +80,17 @@ const getRequestById = async (id) => {
 			description: request.description,
 			created_at: request.created_at,
 			updated_at: request.updated_at,
-			volunteer: {
-				id: volunteer.id,
-				name: volunteer.name,
-				email: volunteer.email,
-				age: volunteer.age,
-				points_earned: volunteer.points_earned,
-			},
 			requester: {
 				id: requester.id,
-				name: requester.name,
+				first_name: requester.first_name,
+				last_name: requester.last_name,
 				phone: requester.phone,
 			},
 			status: {
 				id: status.id,
 				name: status.name,
 			},
-			task: [
+			tasks: [
 				{
 					id: requestTask.id,
 					description: requestTask.description,
