@@ -52,6 +52,7 @@ CREATE TABLE volunteers (
     email VARCHAR(255) NOT NULL,
     age INT NOT NULL,
     points_earned INT NOT NULL,
+    hours_earned INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
@@ -80,6 +81,7 @@ CREATE TABLE requests (
     category_id INT REFERENCES categories (id) ON DELETE CASCADE,
     hours_needed INT NOT NULL,
     due_date DATE NOT NULL,
+     event_time TIME,
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -102,6 +104,7 @@ CREATE TABLE rewards (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    img_url VARCHAR(255) NOT NULL,
     points_required INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
