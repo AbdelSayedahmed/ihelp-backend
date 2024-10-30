@@ -1,8 +1,4 @@
 const db = require("../db/db-config.js");
-const { getVolunteerById } = require("../queries/volunteersQueries.js");
-const { getRequesterById } = require("../queries/requestersQueries.js");
-const { getStatusById } = require("../queries/statusesQueries.js");
-const { getRequestTaskById } = require("../queries/requestTasksQueries.js");
 
 const getAllRequests = async (uid) => {
   try {
