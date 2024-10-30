@@ -198,7 +198,9 @@ const updateRequest = async (id, updates) => {
     organization_id,
     status_id,
     description,
-    created_at,
+    due_date,
+    hours_needed,
+    tasks,
   } = updates;
 
   try {
@@ -215,39 +217,26 @@ const updateRequest = async (id, updates) => {
     const values = [];
     let index = 1;
 
-    if (requester_id) {
-      fields.push(`requester_id = $${index++}`);
-      values.push(requester_id);
-    }
-    if (volunteer_id) {
-      fields.push(`volunteer_id = $${index++}`);
-      values.push(volunteer_id);
-    }
-    if (organization_id) {
-      fields.push(`organization_id = $${index++}`);
-      values.push(organization_id);
-    }
-    if (status_id) {
-      fields.push(`status_id = $${index++}`);
-      values.push(status_id);
-    }
-    if (description) {
-      fields.push(`description = $${index++}`);
-      values.push(description);
-    }
-    if (created_at) {
-      fields.push(`created_at = $${index++}`);
-      values.push(created_at);
-    }
-
+    if (requester_id)
+      fields.push(`requester_id = $${index++}`) && values.push(requester_id);
+    if (volunteer_id)
+      fields.push(`volunteer_id = $${index++}`) && values.push(volunteer_id);
+    if (organization_id)
+      fields.push(`organization_id = $${index++}`) &&
+        values.push(organization_id);
+    if (status_id)
+      fields.push(`status_id = $${index++}`) && values.push(status_id);
+    if (description)
+      fields.push(`description = $${index++}`) && values.push(description);
+    if (due_date)
+      fields.push(`due_date = $${index++}`) && values.push(due_date);
+    if (hours_needed)
+      fields.push(`hours_needed = $${index++}`) && values.push(hours_needed);
     fields.push(`updated_at = NOW()`);
 
-    const query = `
-      UPDATE requests 
-      SET ${fields.join(", ")} 
-      WHERE id = $${index} 
-      RETURNING *`;
-
+    const query = `UPDATE requests SET ${fields.join(
+      ", "
+    )} WHERE id = $${index} RETURNING *`;
     values.push(id);
 
     const updatedRequest = await db.one(query, values);
