@@ -35,7 +35,8 @@ organizations.get("/:id", async (req, res) => {
 organizations.post("/", async (req, res) => {
   const { name, description } = req.body;
 
-  if (!name || !description) return res.status(400).json({ error: "Missing required fields" });
+  if (!name || !description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const newOrganization = await createOrganization(req.body);
@@ -49,7 +50,8 @@ organizations.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name, description } = req.body;
 
-  if (!name || !description) return res.status(400).json({ error: "Missing required fields" });
+  if (!name || !description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const updatedOrganization = await updateOrganization(id, req.body);

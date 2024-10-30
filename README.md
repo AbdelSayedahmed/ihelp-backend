@@ -244,4 +244,3 @@ npm run start
 ```
 
 This command will execute the SQL files to create the schema and populate it with sample data.
-

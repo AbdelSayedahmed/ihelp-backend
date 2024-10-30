@@ -35,7 +35,8 @@ status.get("/:id", async (req, res) => {
 status.post("/", async (req, res) => {
   const { name } = req.body;
 
-  if (!name) return res.status(400).json({ error: "Missing required field: name" });
+  if (!name)
+    return res.status(400).json({ error: "Missing required field: name" });
 
   try {
     const newStatus = await createStatus(req.body);
@@ -49,7 +50,8 @@ status.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
 
-  if (!name) return res.status(400).json({ error: "Missing required field: name" });
+  if (!name)
+    return res.status(400).json({ error: "Missing required field: name" });
 
   try {
     const updatedStatus = await updateStatus(id, req.body);
@@ -65,7 +67,7 @@ status.put("/:id", async (req, res) => {
 
 status.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const deletedStatus = await deleteStatus(id);
     if (deletedStatus) {
