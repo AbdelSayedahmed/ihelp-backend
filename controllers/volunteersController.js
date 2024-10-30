@@ -36,7 +36,10 @@ volunteers.get("/:id", async (req, res) => {
 volunteers.post("/", async (req, res) => {
   const { name, email } = req.body;
 
-  if (!name || !email) return res.status(400).json({ error: "Missing required fields: name and email" });
+  if (!name || !email)
+    return res
+      .status(400)
+      .json({ error: "Missing required fields: name and email" });
 
   try {
     const newVolunteer = await createVolunteer(req.body);
@@ -50,7 +53,10 @@ volunteers.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
 
-  if (!name || !email) return res.status(400).json({ error: "Missing required fields: name and email" });
+  if (!name || !email)
+    return res
+      .status(400)
+      .json({ error: "Missing required fields: name and email" });
 
   try {
     const updatedVolunteer = await updateVolunteer(id, req.body);
@@ -66,7 +72,7 @@ volunteers.put("/:id", async (req, res) => {
 
 volunteers.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const deletedVolunteer = await deleteVolunteer(id);
     if (deletedVolunteer) {

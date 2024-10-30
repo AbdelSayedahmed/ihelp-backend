@@ -37,7 +37,8 @@ requesters.post("/", async (req, res) => {
   const { name, email } = req.body;
   const uid = req.user.uid;
 
-  if (!name || !email) return res.status(400).json({ error: "Missing required fields" });
+  if (!name || !email)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const newRequester = await createRequester(uid, req.body);
@@ -51,7 +52,8 @@ requesters.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
 
-  if (!name || !email) return res.status(400).json({ error: "Missing required fields" });
+  if (!name || !email)
+    return res.status(400).json({ error: "Missing required fields" });
 
   try {
     const updatedRequester = await updateRequester(id, req.body);
