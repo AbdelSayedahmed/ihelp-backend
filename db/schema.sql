@@ -81,7 +81,7 @@ CREATE TABLE requests (
     category_id INT REFERENCES categories (id) ON DELETE CASCADE,
     hours_needed INT NOT NULL,
     due_date DATE NOT NULL,
-     event_time TIME,
+    event_time TIME
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

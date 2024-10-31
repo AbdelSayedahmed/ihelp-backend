@@ -6,6 +6,7 @@ function getOpenRequests() {
     SELECT 
     r.id,
     r.due_date as date,
+    r.event_time,
     r.status_id,
     rs.name as status_name,
     c.name as category,
@@ -43,7 +44,7 @@ async function getRequestDetails(requestId) {
       c.id as category_id,
       r.due_date as date,
       r.hours_needed as hours,
-      r.event_time,
+  
       r.description,
       (
         SELECT SUM(rt.point_earnings) 
@@ -145,6 +146,6 @@ function getLeaderboardVolunteers() {
 module.exports = {
 	getOpenRequests,
 	getRequestDetails,
-  getVolunteerProfile,
-  getLeaderboardVolunteers,
+	getVolunteerProfile,
+	getLeaderboardVolunteers,
 };
