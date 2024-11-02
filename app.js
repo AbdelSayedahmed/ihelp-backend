@@ -20,11 +20,11 @@ const app = express();
 
 // Middleware
 app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
-    allowedHeaders: ["Authorization", "Content-Type"],
-  })
+	cors({
+		origin: "*",
+		methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+		allowedHeaders: ["Authorization", "Content-Type"],
+	})
 );
 app.use(express.json());
 

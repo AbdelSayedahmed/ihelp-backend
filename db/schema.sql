@@ -52,11 +52,17 @@ CREATE TABLE volunteers (
     email VARCHAR(255) NOT NULL,
     age INT NOT NULL,
     points_earned INT NOT NULL,
+    hours_earned INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
-
+CREATE TABLE task_progress (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE request_status (
     id SERIAL PRIMARY KEY,
@@ -64,6 +70,14 @@ CREATE TABLE request_status (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE task_status (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
 
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
@@ -80,10 +94,13 @@ CREATE TABLE requests (
     category_id INT REFERENCES categories (id) ON DELETE CASCADE,
     hours_needed INT NOT NULL,
     due_date DATE NOT NULL,
+    event_time TIME,
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
 
 CREATE TABLE request_task (
     id SERIAL PRIMARY KEY,
@@ -91,6 +108,7 @@ CREATE TABLE request_task (
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
     request_id INT REFERENCES requests (id) ON DELETE CASCADE,
     point_earnings INT NOT NULL,
+    task_status_id INT REFERENCES task_status (id) ON DELETE CASCADE,
     task TEXT,
     due_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -102,6 +120,7 @@ CREATE TABLE rewards (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    img_url VARCHAR(255) NOT NULL,
     points_required INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -133,25 +152,16 @@ CREATE TABLE badges_earned (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE task_progress (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+
+
+
 
 CREATE TABLE assigned_tasks (
-    id SERIAL PRIMARY KEY,
     request_task_id INT REFERENCES request_task (id) ON DELETE CASCADE,
     volunteer_id INT REFERENCES volunteers (id) ON DELETE CASCADE,
     task_progress_id INT REFERENCES task_progress (id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (request_task_id, volunteer_id)
 );
 
-CREATE TABLE task_status (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
