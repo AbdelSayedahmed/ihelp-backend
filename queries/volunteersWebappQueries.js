@@ -1,5 +1,17 @@
 const db = require("../db/db-config.js");
 
+// Add this helper function
+function getVolunteerIdByUid(uid) {
+	return db.oneOrNone(
+		`
+    SELECT id 
+    FROM volunteers 
+    WHERE uid = $1
+  `,
+		[uid]
+	);
+}
+
 function getOpenRequests() {
 	return db.any(
 		`
@@ -44,7 +56,7 @@ async function getRequestDetails(requestId) {
       c.id as category_id,
       r.due_date as date,
       r.hours_needed as hours,
-  
+      r.event_time,
       r.description,
       (
         SELECT SUM(rt.point_earnings) 
@@ -142,10 +154,137 @@ function getLeaderboardVolunteers() {
   `
 	);
 }
+function getTasksByVolunteerId(volunteerId) {
+	return db.any(
+		`
+    SELECT
+    at.id,
+    at.request_task_id as task_id,
+    r.category_id,
+    r.hours_needed,
+    r.category,
+    r.due_date,
+    r.organization_id,
+
+		FROM assigned_tasks AS  at
+    LEFT JOIN requests r ON rt.request_id = r.id
+    LEFT JOIN request_task rt ON at.request_task_id = rt.id,
+    LEFT JOIN volunteers v ON at.volunteer_id = v.id,
+    LEFT JOIN task_status ts ON at.task_status_id = ts.id
+  `
+	);
+}
+async function commitToTask(volunteerId, taskId) {
+	return db.tx(async (t) => {
+		try {
+			// Insert into assigned_tasks
+			const committed = await t.one(
+				`
+              INSERT INTO assigned_tasks (volunteer_id, request_task_id, task_progress_id)
+              VALUES ($1, $2, 1)
+              RETURNING *
+              `,
+				[volunteerId, taskId]
+			);
+
+			// Update task status to ASSIGNED
+			const updatedTaskStatus = await t.one(
+				`
+              UPDATE request_task
+              SET task_status_id = 2
+              WHERE id = $1
+              RETURNING *
+              `,
+				[taskId]
+			);
+
+			// Check if all tasks in the same request have status "ASSIGNED"
+			const requestId = updatedTaskStatus.request_id;
+
+			const allTasksAssigned = await t.one(
+				`
+              SELECT COUNT(*) = COUNT(CASE WHEN task_status_id = 2 THEN 1 END) AS all_assigned
+              FROM request_task
+              WHERE request_id = $1
+              `,
+				[requestId]
+			);
+
+			// Update the request status if all tasks are assigned
+			if (allTasksAssigned.all_assigned) {
+				const updateRequestStatus = await t.one(
+					`
+                  UPDATE requests
+                  SET status_id = 2
+                  WHERE id = $1
+                  RETURNING *
+                  `,
+					[requestId]
+				);
+				return { committed, updatedTaskStatus, updateRequestStatus };
+			}
+
+			// If not all tasks are assigned, only return committed and updated task status
+			return { committed, updatedTaskStatus };
+		} catch (error) {
+			console.error("Error committing to task:", error);
+			throw error;
+		}
+	});
+}
+
+async function unCommitToTask(volunteerId, taskId) {
+	return db.tx(async (t) => {
+		try {
+			// Remove from assigned_tasks
+			const uncommitted = await t.one(
+				`
+              DELETE FROM assigned_tasks 
+              WHERE volunteer_id = $1 AND request_task_id = $2 
+              RETURNING *
+              `,
+				[volunteerId, taskId]
+			);
+
+			// Update task status to OPEN
+			const updatedTaskStatus = await t.one(
+				`
+              UPDATE request_task
+              SET task_status_id = 1
+              WHERE id = $1
+              RETURNING request_id
+              `,
+				[taskId]
+			);
+
+			const requestId = updatedTaskStatus.request_id;
+
+			// Update the request status to OPEN
+			const updatedRequestStatus = await t.one(
+				`
+              UPDATE requests 
+              SET status_id = 1 
+              WHERE id = $1 
+              RETURNING *
+              `,
+				[requestId]
+			);
+
+			return { uncommitted, updatedTaskStatus, updatedRequestStatus };
+		} catch (error) {
+			console.error("Error uncommitting from task:", error);
+			throw error;
+		}
+	});
+}
 
 module.exports = {
+  getVolunteerIdByUid,
 	getOpenRequests,
 	getRequestDetails,
 	getVolunteerProfile,
 	getLeaderboardVolunteers,
+	getTasksByVolunteerId,
+	commitToTask,
+	unCommitToTask,
 };
