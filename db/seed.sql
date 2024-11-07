@@ -72,7 +72,7 @@ INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned, h
 ('OA0fvVp0l8XCwplmtKhjJ6ym7D22', 1, 'Kurt Julien', 'kjulien@pursuit.org', 17, 100, 10, 1),
 ('2W4gow7VyWO8PXB4o5vAjKP38JB3', 1, 'Marcus Browne', 'mbrowne@pursuit.org', 16, 20, 2, 2),
 ('wk2skOz9KUOXEqi6HJQDRhq5HN62', 1, 'Shanel Elms', 'selms@pursuit.org', 12, 180, 15, 3),
-('bWDLGo3svlbYEDGc2qfXzWnwBdK2', 1, 'Antonio Martinez', 'amartinez@pursuit.org', 15, 80, 7, 4),
+('bWDLGo3svlbYEDGc2qfXzWnwBdK2', 1, 'Kevin Roberts', 'amartinez@pursuit.org', 15, 80, 7, 4),
 ('Yhb4UQWh6VSAf0jYBGVjWv0cEYD3', 1, 'Abdel Sayedahmed', 'asayedahmed@pursuit.org', 13, 60, 6, 5),
 ('Zk2vP9d9nYmcH1lH6REwfB9E2Cw2', 1, 'Emily Carter', 'ecarter@pursuit.org', 18, 120, 12, 6),
 ('Jj9qL0H5t3XyP8mY3H7RwA1N5Dg5', 1, 'Sophia Li', 'sli@pursuit.org', 19, 160, 14, 7),
@@ -80,7 +80,7 @@ INSERT INTO volunteers (uid, organization_id, name, email, age, points_earned, h
 ('Kc6jR8c2a6WbP2tS9Q3ZrR6A0Cd1', 1, 'Mia Rodriguez', 'mrodriguez@pursuit.org', 16, 85, 8, 9),
 ('Yp7cH3x4q4XxF8gE2N8ReY5R2Ko6', 1, 'Ethan Brown', 'ebrown@pursuit.org', 15, 180, 16, 10),
 ('Ap1dF2b8u2VeP3kD0H4KeT4E4Dg8', 1, 'Olivia Smith', 'osmith@pursuit.org', 17, 150, 15, 11),
-('jdc7HdF9YIVT7MgmULrrP8ETPg63', 1, 'Kevin Roberts', 'kroberts@pursuit.org', 18, 0, 0, 12); 
+('jdc7HdF9YIVT7MgmULrrP8ETPg63', 1, 'Antonio Martinez', 'kroberts@pursuit.org', 18, 0, 0, 12); 
 
 
 
@@ -108,32 +108,32 @@ INSERT INTO request_status (name) VALUES
 
 INSERT INTO requests (organization_id, requester_id, status_id, description, hours_needed, due_date, category_id, event_time) VALUES
 -- OPEN Requests (8 total - mix of 1-4 tasks)
-(1, 1, 1, 'Help organize community event setup and cleanup', 8, '2024-03-25', 9, '09:00'),
-(1, 2, 1, 'Senior home technology assistance needed', 6, '2024-03-28', 3, '10:30'),
-(1, 3, 1, 'Weekly meal prep for elderly couple', 5, '2024-03-30', 8, '08:00'),
-(1, 4, 2, 'Garden maintenance and landscaping help', 6, '2024-04-01', 6, '07:30'),
-(1, 5, 1, 'Pet care assistance needed', 4, '2024-04-02', 5, '08:00'),
-(1, 6, 1, 'Help with grocery shopping and organizing', 3, '2024-04-03', 2, '11:00'),
-(1, 7, 1, 'Math tutoring for middle school student', 2, '2024-04-05', 7, '15:30'),
-(1, 8, 1, 'Office filing and organization', 2, '2024-04-06', 12, '13:00'),
+(1, 1, 1, 'Help organize community event setup and cleanup', 8, '2024-11-25', 9, '09:00'),
+(1, 2, 1, 'Senior home technology assistance needed', 6, '2024-12-28', 3, '10:30'),
+(1, 3, 1, 'Weekly meal prep for elderly couple', 5, '2024-11-30', 8, '08:00'),
+(1, 4, 2, 'Garden maintenance and landscaping help', 6, '2024-12-01', 6, '07:30'),
+(1, 5, 1, 'Pet care assistance needed', 4, '2024-11-02', 5, '08:00'),
+(1, 6, 1, 'Help with grocery shopping and organizing', 3, '2024-11-03', 2, '11:00'),
+(1, 7, 1, 'Math tutoring for middle school student', 2, '2024-11-05', 7, '15:30'),
+(1, 8, 1, 'Office filing and organization', 2, '2024-11-06', 12, '13:00'),
 
 -- ASSIGNED Requests (6 total)
-(1, 9, 2, 'Sports coaching for youth basketball team', 6, '2024-03-27', 10, '16:00'),
-(1, 10, 2, 'Computer setup and basic training', 4, '2024-03-29', 3, '14:00'),
-(1, 11, 2, 'Spring cleaning and organization', 6, '2024-03-31', 4, '09:30'),
-(1, 12, 2, 'Meal delivery coordination', 4, '2024-04-02', 2, '11:30'),
-(1, 13, 2, 'After-school homework help', 3, '2024-04-04', 7, '15:00'),
-(1, 14, 2, 'Community garden planting project', 5, '2024-04-05', 6, '08:30'),
+(1, 9, 2, 'Sports coaching for youth basketball team', 6, '2024-12-27', 10, '16:00'),
+(1, 10, 2, 'Computer setup and basic training', 4, '2024-12-29', 3, '14:00'),
+(1, 11, 2, 'Spring cleaning and organization', 6, '2024-11-30', 4, '09:30'),
+(1, 12, 2, 'Meal delivery coordination', 4, '2024-11-02', 2, '11:30'),
+(1, 13, 2, 'After-school homework help', 3, '2024-11-04', 7, '15:00'),
+(1, 14, 2, 'Community garden planting project', 5, '2024-11-05', 6, '08:30'),
 
 -- COMPLETE Requests (8 total)
-(1, 1, 4, 'Senior companion and errand assistance', 4, '2024-02-15', 2, '10:00'),
-(1, 2, 4, 'School supply organization and inventory', 6, '2024-02-20', 12, '09:00'),
-(1, 3, 4, 'Pet sitting and dog walking', 4, '2024-02-25', 5, '07:30'),
-(1, 4, 4, 'Technology workshop for seniors', 5, '2024-03-01', 3, '13:30'),
-(1, 5, 4, 'Community center cleaning project', 6, '2024-03-05', 4, '08:00'),
-(1, 6, 4, 'Youth art class assistance', 4, '2024-03-10', 11, '14:30'),
-(1, 7, 4, 'Food bank sorting and organizing', 5, '2024-03-15', 1, '09:30'),
-(1, 8, 4, 'Reading buddy program', 3, '2024-03-20', 7, '15:00');
+(1, 1, 4, 'Senior companion and errand assistance', 4, '2024-12-15', 2, '10:00'),
+(1, 2, 4, 'School supply organization and inventory', 6, '2024-11-20', 12, '09:00'),
+(1, 3, 4, 'Pet sitting and dog walking', 4, '2024-12-25', 5, '07:30'),
+(1, 4, 4, 'Technology workshop for seniors', 5, '2024-12-01', 3, '13:30'),
+(1, 5, 4, 'Community center cleaning project', 6, '2024-11-05', 4, '08:00'),
+(1, 6, 4, 'Youth art class assistance', 4, '2024-11-10', 11, '14:30'),
+(1, 7, 4, 'Food bank sorting and organizing', 5, '2024-11-15', 1, '09:30'),
+(1, 8, 4, 'Reading buddy program', 3, '2024-11-20', 7, '15:00');
 
 INSERT INTO task_status (name) VALUES 
 ('OPEN'), 
