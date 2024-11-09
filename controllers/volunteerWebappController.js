@@ -104,7 +104,7 @@ volunteerWebpp.get("/volunteerTasks", async (req, res) => {
 		const tasks = await getTasksByVolunteerId(volunteer.id);
 		res.status(200).json(tasks);
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		res.status(500).json({ message: error.message ,error});
 	}
 });
 

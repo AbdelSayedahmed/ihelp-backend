@@ -47,54 +47,63 @@ function getOpenRequests() {
     `
 	);
 }
+
 async function getRequestDetails(requestId) {
 	return db.oneOrNone(
 		`
     SELECT 
-      r.id,
-      c.name as category,
-      c.id as category_id,
-      r.due_date as date,
-      r.hours_needed as hours,
-      r.event_time,
-      r.description,
-      (
-        SELECT SUM(rt.point_earnings) 
-        FROM request_task rt 
+    r.id AS request_id,
+    c.name as category,
+    c.id as category_id,
+    r.due_date as date,
+    r.hours_needed as hours,
+    r.status_id AS request_status_id,
+    rs.name AS request_status_name,
+    r.event_time,
+    r.description,
+    (
+        SELECT SUM(rt.point_earnings)
+        FROM request_task rt
         WHERE rt.request_id = r.id
-      ) as points,
-      json_build_object(
+    ) as points,
+    json_build_object(
         'street', a.street,
         'city', a.city,
         'state', a.state,
         'zip_code', a.zip_code
-      ) as address,
-      COALESCE(
+    ) as address,
+    COALESCE(
         json_agg(
-          json_build_object(
-            'id', rt.id,
-            'description', rt.task,
-            'points', rt.point_earnings,
-            'status', ts.name,
-            'status_id', COALESCE(at.task_progress_id, 1),
-            'volunteer_id', v.id,
-            'volunteer_username', v.name,
-            'volunteer_avatar_url', av.img_url
-          ) ORDER BY rt.id
+            json_build_object(
+                'id', rt.id,
+                'description', rt.task,
+                'points', rt.point_earnings,
+                'task_status_id', rt.task_status_id,
+                'task_status_name', ts.name,
+                'task_progress_id', COALESCE(at.task_progress_id, 1),
+                'task_progress_name', tp.name,
+                'volunteer_id', v.id,
+                'volunteer_username', v.name,
+                'volunteer_avatar_url', av.img_url
+            ) ORDER BY rt.id
         ) FILTER (WHERE rt.id IS NOT NULL),
         '[]'
-      ) as tasks
-    FROM requests r
-    JOIN categories c ON r.category_id = c.id
-    JOIN organizations o ON r.organization_id = o.id
-    JOIN addresses a ON o.address_id = a.id
-    LEFT JOIN request_task rt ON r.id = rt.request_id
-    LEFT JOIN assigned_tasks at ON rt.id = at.request_task_id
-    LEFT JOIN task_progress ts ON at.task_progress_id = ts.id
-    LEFT JOIN volunteers v ON at.volunteer_id = v.id
-    LEFT JOIN avatars av ON v.avatar_id = av.id
-    WHERE r.id = $1 
-    GROUP BY r.id, c.name, c.id, r.due_date, r.hours_needed, r.description, a.street, a.city, a.state, a.zip_code
+    ) as tasks
+FROM requests r
+JOIN categories c ON r.category_id = c.id
+JOIN organizations o ON r.organization_id = o.id
+JOIN addresses a ON o.address_id = a.id
+LEFT JOIN request_task rt ON r.id = rt.request_id
+LEFT JOIN request_status rs ON r.status_id = rs.id
+LEFT JOIN task_status ts ON rt.task_status_id = ts.id
+LEFT JOIN assigned_tasks at ON rt.id = at.request_task_id
+LEFT JOIN task_progress tp ON at.task_progress_id = tp.id
+LEFT JOIN volunteers v ON at.volunteer_id = v.id
+LEFT JOIN avatars av ON v.avatar_id = av.id
+WHERE r.id = $1
+GROUP BY r.id, c.name, c.id, r.due_date, r.hours_needed, r.status_id, rs.name, r.description, a.street, a.city, a.state, a.zip_code;
+
+
   `,
 		requestId
 	);
@@ -171,21 +180,28 @@ function getLeaderboardVolunteers() {
 function getTasksByVolunteerId(volunteerId) {
 	return db.any(
 		`
-    SELECT
-    at.id,
+    SELECT 
     at.request_task_id as task_id,
-    r.category_id,
+    c.id as category_id,
+    c.name as category_name,
+    r.id as request_id,
     r.hours_needed,
-    r.category,
     r.due_date,
     r.organization_id,
-
-		FROM assigned_tasks AS  at
-    LEFT JOIN requests r ON rt.request_id = r.id
-    LEFT JOIN request_task rt ON at.request_task_id = rt.id,
-    LEFT JOIN volunteers v ON at.volunteer_id = v.id,
-    LEFT JOIN task_status ts ON at.task_status_id = ts.id
-  `
+    tp.name AS task_progress_name,
+    tp.id AS task_progress_id,
+    rt.task_status_id,
+    ts.name AS task_status_name
+  FROM assigned_tasks AS at
+  LEFT JOIN request_task rt ON at.request_task_id = rt.id
+  LEFT JOIN requests r ON rt.request_id = r.id
+  LEFT JOIN categories c ON r.category_id = c.id
+  LEFT JOIN task_progress tp ON at.task_progress_id = tp.id
+  LEFT JOIN task_status ts ON rt.task_status_id = ts.id
+  WHERE at.volunteer_id = $1
+  
+  `,
+		volunteerId
 	);
 }
 async function commitToTask(volunteerId, taskId) {
@@ -292,28 +308,6 @@ async function unCommitToTask(volunteerId, taskId) {
 	});
 }
 
-async function getTasksByVolunteerId(volunteerId) {
-	return db.any(
-		`SELECT 
-  rt.id,
-  r.id as request_id,
-  r.category_id,
-  c.name as category_name,
-  rt.point_earnings as points,
-  r.due_date as date,
-  ts.name as status_name,
-  ts.id as status_id
-FROM request_task rt
-JOIN assigned_tasks at ON rt.id = at.request_task_id
-JOIN requests r ON rt.request_id = r.id
-JOIN categories c ON r.category_id = c.id
-JOIN task_status ts ON rt.task_status_id = ts.id
-WHERE at.volunteer_id = $1;
-`,
-		volunteerId
-	);
-}
-
 async function getQuest(taskId, volunteerId) {
 	return db.any(
 		`SELECT 
@@ -343,8 +337,8 @@ module.exports = {
 	getVolunteerProfile,
 	getLeaderboardVolunteers,
 	getTasksByVolunteerId,
+	getTasksByVolunteerId,
 	commitToTask,
 	unCommitToTask,
-	getTasksByVolunteerId,
 	getQuest,
 };
