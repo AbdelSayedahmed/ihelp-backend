@@ -3,3 +3,5 @@ node_modules
 .DS_Store
 firebase-credentials.json
 firebase-credential.json
+prod_schema.sql
+prod_seed.sql
