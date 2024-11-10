@@ -175,9 +175,9 @@ const createRequest = async (uid, requestData) => {
 		const taskPromises = tasks.map((task) =>
 			db.one(
 				`INSERT INTO request_task 
-		  (requester_id, organization_id, request_id, point_earnings, task, due_date, created_at, updated_at) 
+		  (requester_id, organization_id, request_id, point_earnings, task, due_date,task_status_id) 
 		  VALUES 
-		  ($1, $2, $3, $4, $5, $6, NOW(), NOW()) 
+		  ($1, $2, $3, $4, $5, $6,$7) 
 		  RETURNING id`,
 				[
 					requester,
@@ -186,6 +186,7 @@ const createRequest = async (uid, requestData) => {
 					parseInt(task.point_earnings, 10),
 					task.task,
 					due_date,
+					1,
 				]
 			)
 		);

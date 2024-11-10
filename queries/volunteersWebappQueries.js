@@ -101,7 +101,8 @@ LEFT JOIN task_progress tp ON at.task_progress_id = tp.id
 LEFT JOIN volunteers v ON at.volunteer_id = v.id
 LEFT JOIN avatars av ON v.avatar_id = av.id
 WHERE r.id = $1
-GROUP BY r.id, c.name, c.id, r.due_date, r.hours_needed, r.status_id, rs.name, r.description, a.street, a.city, a.state, a.zip_code;
+GROUP BY r.id, c.name, c.id, r.due_date, r.hours_needed, r.status_id, rs.name, r.description, a.street, a.city, a.state,
+ a.zip_code;
 
 
   `,
