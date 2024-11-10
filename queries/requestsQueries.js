@@ -183,7 +183,7 @@ const createRequest = async (uid, requestData) => {
 					requester,
 					organization_id,
 					request_id,
-					parseInt(task.points, 10),
+					parseInt(task.point_earnings, 10),
 					task.task,
 					due_date,
 				]
