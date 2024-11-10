@@ -76,12 +76,13 @@ volunteerWebpp.post("/tasks/:taskId/commit", async (req, res) => {
 });
 
 volunteerWebpp.post("/tasks/:taskId/uncommit", async (req, res) => {
+	console.log("fireing");
 	try {
 		const { taskId } = req.params;
 		// const uid = req.user.uid;
 		const uid = "bWDLGo3svlbYEDGc2qfXzWnwBdK2";
-
 		const volunteer = await getVolunteerIdByUid(uid);
+		console.log(volunteer, "volunteer");
 		if (!volunteer) {
 			return res.status(404).json({ message: "Volunteer not found" });
 		}
@@ -89,7 +90,7 @@ volunteerWebpp.post("/tasks/:taskId/uncommit", async (req, res) => {
 		const result = await unCommitToTask(volunteer.id, taskId);
 		res.status(200).json(result);
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		res.status(500).json({ message: error.message, error });
 	}
 });
 
@@ -104,7 +105,7 @@ volunteerWebpp.get("/volunteerTasks", async (req, res) => {
 		const tasks = await getTasksByVolunteerId(volunteer.id);
 		res.status(200).json(tasks);
 	} catch (error) {
-		res.status(500).json({ message: error.message ,error});
+		res.status(500).json({ message: error.message, error });
 	}
 });
 
@@ -120,7 +121,7 @@ volunteerWebpp.get("/quest/tasks/:id", async (req, res) => {
 		const quest = await getQuest(id, volunteer.id);
 		res.status(200).json(quest);
 	} catch (error) {
-		res.status(500).json({ message: error.message ,error});
+		res.status(500).json({ message: error.message, error });
 	}
 });
 

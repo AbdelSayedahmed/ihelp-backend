@@ -191,6 +191,7 @@ function getTasksByVolunteerId(volunteerId) {
     tp.name AS task_progress_name,
     tp.id AS task_progress_id,
     rt.task_status_id,
+    rt.point_earnings AS points,
     ts.name AS task_status_name
   FROM assigned_tasks AS at
   LEFT JOIN request_task rt ON at.request_task_id = rt.id
