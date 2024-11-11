@@ -101,7 +101,8 @@ LEFT JOIN task_progress tp ON at.task_progress_id = tp.id
 LEFT JOIN volunteers v ON at.volunteer_id = v.id
 LEFT JOIN avatars av ON v.avatar_id = av.id
 WHERE r.id = $1
-GROUP BY r.id, c.name, c.id, r.due_date, r.hours_needed, r.status_id, rs.name, r.description, a.street, a.city, a.state, a.zip_code;
+GROUP BY r.id, c.name, c.id, r.due_date, r.hours_needed, r.status_id, rs.name, r.description, a.street, a.city, a.state,
+ a.zip_code;
 
 
   `,
@@ -310,25 +311,106 @@ async function unCommitToTask(volunteerId, taskId) {
 }
 
 async function getQuest(taskId, volunteerId) {
-	return db.any(
+	return db.oneOrNone(
 		`SELECT 
-    v.id,
-    v.name,
-    a.img_url as avatar_url,
-    rt.point_earnings,
-    r.hours_needed,
-    at.task_progress_id,
-    r.id as request_id
-FROM assigned_tasks at
-JOIN volunteers v ON at.volunteer_id = v.id
-JOIN avatars a ON v.avatar_id = a.id
-JOIN request_task rt ON at.request_task_id = rt.id
-JOIN requests r ON rt.request_id = r.id
-WHERE at.request_task_id = $1 AND at.volunteer_id = $2
-`,
-		taskId,
-		volunteerId
+      rt.id as task_id,
+      rt.task_status_id,
+      ts.name as task_status_name,
+      at.task_progress_id,
+      tp.name as task_progress_name,
+      v.id as volunteer_id,
+      v.name as volunteer_username,
+      av.img_url as volunteer_avatar_url,
+      rt.point_earnings,
+      r.hours_needed
+    FROM assigned_tasks at
+    JOIN volunteers v ON at.volunteer_id = v.id
+    JOIN avatars av ON v.avatar_id = av.id
+    JOIN request_task rt ON at.request_task_id = rt.id
+    JOIN requests r ON rt.request_id = r.id
+    JOIN task_status ts ON rt.task_status_id = ts.id
+    JOIN task_progress tp ON at.task_progress_id = tp.id
+    WHERE at.request_task_id = $1 AND at.volunteer_id = $2`,
+		[taskId, volunteerId]
 	);
+}
+
+async function updateQuestProgress(taskId, volunteerId) {
+	return db.tx(async (t) => {
+		// Get current progress
+		const currentProgress = await t.oneOrNone(
+			`SELECT task_progress_id 
+       FROM assigned_tasks 
+       WHERE request_task_id = $1 AND volunteer_id = $2`,
+			[taskId, volunteerId]
+		);
+
+		// Calculate new progress
+		const newProgressId = Math.min(currentProgress.task_progress_id + 1, 5);
+
+		// First update the assigned task progress
+		await t.oneOrNone(
+			`UPDATE assigned_tasks 
+       SET task_progress_id = $1 
+       WHERE request_task_id = $2 AND volunteer_id = $3 
+       RETURNING *`,
+			[newProgressId, taskId, volunteerId]
+		);
+
+		// Handle IN_PROGRESS status updates
+		if (newProgressId >= 2 && newProgressId < 5) {
+			const inProgressStatus = 3;
+			await t.oneOrNone(
+				`UPDATE request_task 
+        SET task_status_id = $1 
+        WHERE id = $2`,
+				[inProgressStatus, taskId]
+			);
+
+			await t.oneOrNone(
+				`UPDATE requests 
+  SET status_id = 3 
+  WHERE id = (SELECT request_id FROM request_task WHERE id = $1)`,
+				[taskId]
+			);
+		}
+
+		// Handle COMPLETED status updates
+		if (newProgressId === 5) {
+			const { request_id } = await t.oneOrNone(
+				`UPDATE request_task 
+         SET task_status_id = 4 
+         WHERE id = $1 
+         RETURNING request_id`,
+				[taskId]
+			);
+
+			const { all_completed } = await t.oneOrNone(
+				`SELECT CASE 
+           WHEN COUNT(*) = COUNT(CASE WHEN task_status_id = 4 THEN 1 END) 
+           THEN true ELSE false END as all_completed 
+         FROM request_task 
+         WHERE request_id = $1`,
+				[request_id]
+			);
+
+			if (all_completed) {
+				await t.oneOrNone(
+					`UPDATE requests 
+           SET status_id = 4 
+           WHERE id = $1`,
+					[request_id]
+				);
+			}
+		}
+
+		// Return the final state
+		return t.oneOrNone(
+			`SELECT * FROM assigned_tasks 
+       WHERE request_task_id = $1 AND volunteer_id = $2`,
+			[taskId, volunteerId]
+		);
+	});
 }
 
 module.exports = {
@@ -342,4 +424,5 @@ module.exports = {
 	commitToTask,
 	unCommitToTask,
 	getQuest,
+	updateQuestProgress,
 };

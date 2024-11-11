@@ -12,6 +12,7 @@ const {
 	getVolunteerIdByUid,
 	getTasksByVolunteerId,
 	getQuest,
+	updateQuestProgress
 } = require("../queries/volunteersWebappQueries");
 
 volunteerWebpp.get("/open-requests", async (req, res) => {
@@ -119,6 +120,28 @@ volunteerWebpp.get("/quest/tasks/:id", async (req, res) => {
 			return res.status(404).json({ message: "Volunteer not found" });
 		}
 		const quest = await getQuest(id, volunteer.id);
+		if(!quest){
+			return res.status(404).json({ message: "Quest not found" });
+		}	
+		res.status(200).json(quest);
+	} catch (error) {
+		res.status(500).json({ message: error.message, error });
+	}
+});
+volunteerWebpp.post("/quest/tasks/:id/progress", async (req, res) => {
+	try {
+		const { id } = req.params;
+		// const uid = req.user.uid;
+		const uid = "bWDLGo3svlbYEDGc2qfXzWnwBdK2";
+		const volunteer = await getVolunteerIdByUid(uid);
+		if (!volunteer) {
+			return res.status(404).json({ message: "Volunteer not found" });
+		}
+		const quest = await updateQuestProgress(id, volunteer.id);
+		console.log(quest, "quest");
+		if(!quest){
+			return res.status(404).json({ message: "Quest not found" });
+		}	
 		res.status(200).json(quest);
 	} catch (error) {
 		res.status(500).json({ message: error.message, error });
