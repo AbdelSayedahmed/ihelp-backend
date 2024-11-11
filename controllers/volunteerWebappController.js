@@ -138,6 +138,7 @@ volunteerWebpp.post("/quest/tasks/:id/progress", async (req, res) => {
 			return res.status(404).json({ message: "Volunteer not found" });
 		}
 		const quest = await updateQuestProgress(id, volunteer.id);
+		console.log(quest, "quest");
 		if(!quest){
 			return res.status(404).json({ message: "Quest not found" });
 		}	

@@ -334,153 +334,84 @@ async function getQuest(taskId, volunteerId) {
 		[taskId, volunteerId]
 	);
 }
-// async function updateQuestProgress(taskId, volunteerId) {
-// 	return db.tx(async (t) => {
-// 		const currentProgress = await t.one(
-// 			`SELECT task_progress_id 
-//        FROM assigned_tasks 
-//        WHERE request_task_id = $1 AND volunteer_id = $2`,
-// 			[taskId, volunteerId]
-// 		);
 
-// 		// Increment progress if less than 5
-// 		const newProgressId = Math.min(currentProgress.task_progress_id + 1, 5);
-
-// 		if (newProgressId > 2 && newProgressId < 5) {
-// 			// Update task status to IN_PROGRESS
-// 			await t.one(
-// 				`UPDATE request_task
-//          SET task_status_id = 3
-//          WHERE id = $1`,
-// 				[taskId]
-// 			);
-// 			await t.one(
-// 				`UPDATE requests
-//          SET status_id = 3
-//          WHERE id = (SELECT request_id FROM request_task WHERE id = $1)`,
-// 				[taskId]
-// 			);
-// 		}
-// 		if (newProgressId === 5) {
-// 			// Update task status to COMPLETED
-// 			await t
-// 				.one(
-// 					`UPDATE request_task
-//          SET task_status_id = 4
-//          WHERE id = $1
-//          RETURNING request_id`,
-// 					[taskId]
-// 				)
-// 				.then(async (task) => {
-// 					// Check if all tasks in the request are completed
-// 					const allTasksCompleted = await t.one(
-// 						`SELECT 
-//             CASE WHEN COUNT(*) = COUNT(CASE WHEN task_status_id = 4 THEN 1 END)
-//             THEN true ELSE false END as all_completed
-//            FROM request_task
-//            WHERE request_id = $1`,
-// 						[task.request_id]
-// 					);
-
-// 					// If all tasks are completed, update request status to COMPLETED
-// 					if (allTasksCompleted.all_completed) {
-// 						await t.one(
-// 							`UPDATE requests
-//              SET status_id = 4
-//              WHERE id = $1
-//              RETURNING *`,
-// 							[task.request_id]
-// 						);
-// 					}
-// 				});
-// 		}
-
-// 		return t.one(
-// 			`UPDATE assigned_tasks 
-//        SET task_progress_id = $1
-//        WHERE request_task_id = $2 AND volunteer_id = $3
-//        RETURNING *`,
-// 			[newProgressId, taskId, volunteerId]
-// 		);
-// 	});
-// }
 async function updateQuestProgress(taskId, volunteerId) {
-  return db.tx(async (t) => {
-    // Get current progress
-    const currentProgress = await t.one(
-      `SELECT task_progress_id 
+	return db.tx(async (t) => {
+		// Get current progress
+		const currentProgress = await t.oneOrNone(
+			`SELECT task_progress_id 
        FROM assigned_tasks 
        WHERE request_task_id = $1 AND volunteer_id = $2`,
-      [taskId, volunteerId]
-    );
+			[taskId, volunteerId]
+		);
 
-    // Calculate new progress
-    const newProgressId = Math.min(currentProgress.task_progress_id + 1, 5);
+		// Calculate new progress
+		const newProgressId = Math.min(currentProgress.task_progress_id + 1, 5);
 
-    // First update the assigned task progress
-    await t.one(
-      `UPDATE assigned_tasks 
+		// First update the assigned task progress
+		await t.oneOrNone(
+			`UPDATE assigned_tasks 
        SET task_progress_id = $1 
        WHERE request_task_id = $2 AND volunteer_id = $3 
        RETURNING *`,
-      [newProgressId, taskId, volunteerId]
-    );
+			[newProgressId, taskId, volunteerId]
+		);
 
-    // Handle IN_PROGRESS status updates
-    if (newProgressId > 2 && newProgressId < 5) {
-      await t.one(
-        `UPDATE request_task 
-         SET task_status_id = 3 
-         WHERE id = $1`,
-        [taskId]
-      );
+		// Handle IN_PROGRESS status updates
+		if (newProgressId > 2 && newProgressId < 5) {
+			const inProgressStatus = 3;
+			await t.oneOrNone(
+				`UPDATE request_task 
+        SET task_status_id = $1 
+        WHERE id = $2`,
+				[inProgressStatus, taskId]
+			);
 
-      await t.one(
-        `UPDATE requests 
-         SET status_id = 3 
-         WHERE id = (SELECT request_id FROM request_task WHERE id = $1)`,
-        [taskId]
-      );
-    }
+			await t.oneOrNone(
+				`UPDATE requests 
+  SET status_id = 3 
+  WHERE id = (SELECT request_id FROM request_task WHERE id = $1)`,
+				[taskId]
+			);
+		}
 
-    // Handle COMPLETED status updates
-    if (newProgressId === 5) {
-      const { request_id } = await t.one(
-        `UPDATE request_task 
+		// Handle COMPLETED status updates
+		if (newProgressId === 5) {
+			const { request_id } = await t.oneOrNone(
+				`UPDATE request_task 
          SET task_status_id = 4 
          WHERE id = $1 
          RETURNING request_id`,
-        [taskId]
-      );
+				[taskId]
+			);
 
-      const { all_completed } = await t.one(
-        `SELECT CASE 
+			const { all_completed } = await t.oneOrNone(
+				`SELECT CASE 
            WHEN COUNT(*) = COUNT(CASE WHEN task_status_id = 4 THEN 1 END) 
            THEN true ELSE false END as all_completed 
          FROM request_task 
          WHERE request_id = $1`,
-        [request_id]
-      );
+				[request_id]
+			);
 
-      if (all_completed) {
-        await t.one(
-          `UPDATE requests 
+			if (all_completed) {
+				await t.oneOrNone(
+					`UPDATE requests 
            SET status_id = 4 
            WHERE id = $1`,
-          [request_id]
-        );
-      }
-    }
+					[request_id]
+				);
+			}
+		}
 
-    // Return the final state
-    return t.one(
-      `SELECT * FROM assigned_tasks 
+		// Return the final state
+		return t.oneOrNone(
+			`SELECT * FROM assigned_tasks 
        WHERE request_task_id = $1 AND volunteer_id = $2`,
-      [taskId, volunteerId]
-    );
-  });
+			[taskId, volunteerId]
+		);
+	});
 }
-
 
 module.exports = {
 	getVolunteerIdByUid,
