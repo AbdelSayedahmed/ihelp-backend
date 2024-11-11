@@ -119,6 +119,9 @@ volunteerWebpp.get("/quest/tasks/:id", async (req, res) => {
 			return res.status(404).json({ message: "Volunteer not found" });
 		}
 		const quest = await getQuest(id, volunteer.id);
+		if(!quest){
+			return res.status(404).json({ message: "Quest not found" });
+		}	
 		res.status(200).json(quest);
 	} catch (error) {
 		res.status(500).json({ message: error.message, error });

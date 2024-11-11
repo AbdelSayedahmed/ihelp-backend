@@ -311,24 +311,27 @@ async function unCommitToTask(volunteerId, taskId) {
 }
 
 async function getQuest(taskId, volunteerId) {
-	return db.any(
+	return db.oneOrNone(
 		`SELECT 
-    v.id,
-    v.name,
-    a.img_url as avatar_url,
-    rt.point_earnings,
-    r.hours_needed,
-    at.task_progress_id,
-    r.id as request_id
-FROM assigned_tasks at
-JOIN volunteers v ON at.volunteer_id = v.id
-JOIN avatars a ON v.avatar_id = a.id
-JOIN request_task rt ON at.request_task_id = rt.id
-JOIN requests r ON rt.request_id = r.id
-WHERE at.request_task_id = $1 AND at.volunteer_id = $2
-`,
-		taskId,
-		volunteerId
+      rt.id as task_id,
+      rt.task_status_id,
+      ts.name as task_status_name,
+      at.task_progress_id,
+      tp.name as task_progress_name,
+      v.id as volunteer_id,
+      v.name as volunteer_username,
+      av.img_url as volunteer_avatar_url,
+      rt.point_earnings,
+      r.hours_needed
+    FROM assigned_tasks at
+    JOIN volunteers v ON at.volunteer_id = v.id
+    JOIN avatars av ON v.avatar_id = av.id
+    JOIN request_task rt ON at.request_task_id = rt.id
+    JOIN requests r ON rt.request_id = r.id
+    JOIN task_status ts ON rt.task_status_id = ts.id
+    JOIN task_progress tp ON at.task_progress_id = tp.id
+    WHERE at.request_task_id = $1 AND at.volunteer_id = $2`,
+		[taskId, volunteerId]
 	);
 }
 
