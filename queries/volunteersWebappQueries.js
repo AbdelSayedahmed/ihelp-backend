@@ -358,7 +358,7 @@ async function updateQuestProgress(taskId, volunteerId) {
 		);
 
 		// Handle IN_PROGRESS status updates
-		if (newProgressId > 2 && newProgressId < 5) {
+		if (newProgressId >= 2 && newProgressId < 5) {
 			const inProgressStatus = 3;
 			await t.oneOrNone(
 				`UPDATE request_task 
