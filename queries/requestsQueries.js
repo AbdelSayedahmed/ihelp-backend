@@ -21,6 +21,7 @@ const getAllRequests = async (uid) => {
 			categories.name AS category_name,
 			requesters.first_name AS requester_first_name,
 			requesters.last_name AS requester_last_name,
+			requests.due_date,
 			requests.status_id,
 			requests.event_time,
 			request_status.name AS status_name,
@@ -131,7 +132,18 @@ const getRequestById = async (id) => {
 	}
 };
 
-const createRequest = async (uid, requestData) => {
+const createRequest = async (
+	uid,
+	{
+		category,
+		due_date,
+		description,
+		hours_needed,
+		requester,
+		tasks,
+		event_time,
+	}
+) => {
 	const organization = await db.oneOrNone(
 		"SELECT id FROM organizations WHERE uid = $1",
 		[uid]
@@ -143,23 +155,13 @@ const createRequest = async (uid, requestData) => {
 
 	const organization_id = organization.id;
 
-	const {
-		category,
-		due_date,
-		description,
-		hours_needed,
-		requester,
-		tasks,
-		event_time,
-	} = requestData;
-
 	try {
-		const { id: request_id } = await db.one(
+		const newRequest = await db.one(
 			`INSERT INTO requests 
 			(organization_id, requester_id, status_id, description, hours_needed, category_id, due_date,event_time) 
 			VALUES 
 			($1, $2, $3, $4, $5, $6, $7,$8) 
-			RETURNING id`,
+			RETURNING *`,
 			[
 				organization_id,
 				requester,
@@ -182,7 +184,7 @@ const createRequest = async (uid, requestData) => {
 				[
 					requester,
 					organization_id,
-					request_id,
+					newRequest.id,
 					parseInt(task.point_earnings, 10),
 					task.task,
 					due_date,
@@ -193,7 +195,7 @@ const createRequest = async (uid, requestData) => {
 
 		const insertedTasks = await Promise.all(taskPromises);
 
-		return { request_id, tasks: insertedTasks };
+		return { ...newRequest, tasks: insertedTasks };
 	} catch (error) {
 		throw new Error(`Failed to create request: ${error.message}`);
 	}
