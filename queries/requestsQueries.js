@@ -26,8 +26,8 @@ const getAllRequests = async (uid) => {
 			requests.event_time,
 			request_status.name AS status_name,
 			requests.description,
-			COUNT(DISTINCT request_task.id) AS total_tasks,        
-			COUNT(DISTINCT assigned_tasks.request_task_id) AS assigned_tasks,
+			CAST(COUNT(DISTINCT request_task.id)AS INTEGER) AS total_tasks,        
+			CAST(COUNT(DISTINCT assigned_tasks.request_task_id) AS INTEGER ) AS assigned_tasks,
 			requests.created_at,
 			requests.updated_at
 	FROM requests

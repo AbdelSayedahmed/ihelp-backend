@@ -268,5 +268,5 @@ INSERT INTO assigned_tasks (request_task_id, volunteer_id, task_progress_id) VAL
 (21, 1, 5),   -- Kurt completed first task of request 10
 (22, 3, 5),   -- Shanel completed second task of request 10
 (23, 4, 5),   -- Antonio completed task of request 11
-(24, 3, 5);   -- Shanel completed task of request 12
+(24, 3, 5); -- Shanel completed task of request 12
 
