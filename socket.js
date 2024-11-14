@@ -8,6 +8,7 @@ const initializeSocket = (server) => {
 			origin: [
 				"http://localhost:5173",
 				"https://deploy-preview-31--ihelp-org.netlify.app",
+				"https://ihelp-demo.netlify.app",
 			],
 			methods: ["GET", "POST", "PUT", "DELETE"],
 		},
