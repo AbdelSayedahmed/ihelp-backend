@@ -65,8 +65,6 @@ ihelp-backend/
 
 ## Features
 
-Based on the schema you’ve provided, the backend of your project would support several key features, including managing organizations, volunteers, requests, tasks, rewards, and badges. Here's a breakdown of the features supported:
-
 ### 1. **Organization and Address Management:**
 
 - You can manage multiple **organizations**, each tied to a physical **address** (with fields like street, city, state, zip code, country).
